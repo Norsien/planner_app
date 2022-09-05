@@ -1,0 +1,107 @@
+#:kivy 2.1.0
+
+<BottomBar>:
+    orientation: "horizontal"
+    padding: [3, 3, 3, 3]
+    size_hint: (1, None)
+    height: 40
+
+    createNodeButton: createNodeButton.__self__
+    connectNodesButton: connectNodesButton.__self__
+    deleteNodeButton: deleteNodeButton.__self__
+    positionDisplay: positionDisplay.__self__
+    toggleBorderButton: toggleBorderButton.__self__
+
+    canvas:
+        Color:
+            rgb: .2, .2, .2
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    ButtonBox:
+        size: (34, 34)
+        HoverButton:
+            id: createNodeButton
+            bottomBar: root
+            group: "nodeOptions"
+            text: "+"
+            on_press: self.bottomBar.manage_nodeOptions_buttons()
+
+    ButtonBox:
+        size: (34, 34)
+        HoverButton:
+            id: connectNodesButton
+            bottomBar: root
+            group: "nodeOptions"
+            text: "S"
+            on_press: self.bottomBar.manage_nodeOptions_buttons()
+
+    ButtonBox:
+        size: (34, 34)
+        HoverButton:
+            id: deleteNodeButton
+            bottomBar: root
+            group: "nodeOptions"
+            text: "-"
+            on_press: self.bottomBar.manage_nodeOptions_buttons()
+    Widget:
+        size_hint: (None, None)
+        size:(6, 32)
+        pos_hint: {"x": 0, "center_y": 0.5}
+        canvas:
+            Color:
+                rgb: .5, .5, .5
+            Line:
+                width: 1
+                points: self.x + self.width/2, self.y, self.x + self.width/2, self.y + self.height
+    ButtonBox:
+        size: (34, 34)
+        HoverButton:
+            id: toggleBorderButton
+            bottomBar: root
+            text: "B"
+            on_press: self.bottomBar.manage_border_button()
+    ButtonBox:
+        size: (34, 34)
+        HoverButton:
+            id: toggleCursorHighlight
+            bottomBar: root
+            text: "C"
+            # on_press: self.bottomBar.manage_border_button()
+    Widget:
+    ButtonBox:
+        anchor_x: "right"
+        size: (128, 34)
+        canvas:
+            Color:
+                rgb: .9, .9, .9
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        TextInput:
+            id: positionDisplay
+            bottomBar: root
+            color: (0, 0, 0)
+            text: "(0, 0)"
+            readonly: True
+            halign: "center"
+
+
+<ButtonBox>:
+    size_hint:(None, None)
+
+<HoverButton>:
+    size_hint: (None, None)
+    size: (30, 30)
+    pos_hint: {"x": 0, "center_y": 0.5}
+    background_color: 1, 1, 1, 0
+    color: 1, 1, 1, 1
+    button_color: 0.3, 0.4, 0.9, 1
+    canvas.before:
+        Color:
+            rgba: self.button_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [6]

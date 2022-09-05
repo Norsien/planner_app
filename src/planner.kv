@@ -1,0 +1,126 @@
+#:kivy 2.1.0
+
+<MainScreen>:
+    drawingPlane: drawingPlane.__self__
+    bottomBar: bottomBar.__self__
+
+    GridLayout:
+        rows:2
+        ToolBar:
+        GridLayout:
+            cols: 2
+            SideBar:
+            GridLayout:
+                rows: 2
+                DrawRegion:
+                    DrawingPlane:
+                        id: drawingPlane
+                        mainScreen: root
+                BottomBar:
+                    id: bottomBar
+                    mainScreen: root
+
+<ToolBar>:
+    size_hint: (1, None)
+    height: 18
+    canvas:
+        Color:
+            rgb: .7, .7, .7
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<SideBar>:
+    size_hint: (None, 1)
+    width: 300
+    canvas:
+        Color:
+            rgb: .3, .3, .3
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<DrawRegion>:
+    canvas:
+        Color:
+            rgb: .16, .12, .12
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<DrawingPlane>:
+    do_scroll_x: True
+    do_scroll_y: True
+    scroll_x: .5
+    scroll_y: .5
+    size: backgroundImage.size
+
+    scatterLayout: scatterLayout.__self__
+    backgroundImage: backgroundImage.__self__
+
+    borderVisible: False
+
+    ScatterLayout:
+        id: scatterLayout
+        size_hint: (None, None)
+        width: max(backgroundImage.width * self.scale, root.width)
+        height: max(backgroundImage.height * self.scale, root.height)
+
+        do_rotation: False
+        do_translation: False
+        
+        WidgetBorder:
+            id: testee
+            width: self.parent.parent.width / self.parent.parent.scale
+            height: self.parent.parent.height / self.parent.parent.scale
+
+            border_width: 5 / self.parent.parent.scale
+            cross_width: 3 / self.parent.parent.scale
+            border_color: .2, .2, .8, 1
+
+            opacity: int(root.borderVisible)
+
+        Image:
+            id: backgroundImage
+            size_hint: (None, None)
+
+            offset_x: max(0, (root.width - self.width*self.parent.parent.scale)/2)
+            offset_y: max(0, (root.height - self.height*self.parent.parent.scale)/2)
+            pos_x: max(0, self.offset_x/self.parent.parent.scale)
+            pos_y: max(0, self.offset_y/self.parent.parent.scale)
+            pos: (self.pos_x, self.pos_y)
+
+            size: self.texture_size
+            source: "pic2.jpg"
+            color: [1, 1, 1, 0.4]
+
+            WidgetBorder:
+                border_color: .2, .8, .2, 1
+                opacity: int(root.borderVisible)
+
+
+<WidgetBorder>:
+    border_width: 5
+    cross_width: 3
+    border_color: .8, .2, .2, 1
+
+    opacity: 0
+
+    size_hint: (None, None)
+    size: self.parent.size
+    pos: self.parent.pos
+    canvas:
+        Color:
+            rgba: self.border_color
+        Line:
+            width: self.border_width
+            rectangle: self.x, self.y, self.width, self.height
+        Line:
+            width: self.cross_width
+            points: self.x + self.width/2, self.y, self.x + self.width/2, self.y + self.height
+        Line:
+            width: self.cross_width
+            points: self.x, self.y+self.height/2, self.x + self.width, self.y+self.height/2
+
+
+    
