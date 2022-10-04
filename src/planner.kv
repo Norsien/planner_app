@@ -8,8 +8,8 @@
         rows:2
         ToolBar:
         GridLayout:
-            cols: 2
-            SideBar:
+            cols: 3
+            LeftSideBar:
             GridLayout:
                 rows: 2
                 DrawRegion:
@@ -19,6 +19,7 @@
                 BottomBar:
                     id: bottomBar
                     mainScreen: root
+            RightSideBar:
 
 <ToolBar>:
     size_hint: (1, None)
@@ -26,16 +27,6 @@
     canvas:
         Color:
             rgb: .7, .7, .7
-        Rectangle:
-            size: self.size
-            pos: self.pos
-
-<SideBar>:
-    size_hint: (None, 1)
-    width: 300
-    canvas:
-        Color:
-            rgb: .3, .3, .3
         Rectangle:
             size: self.size
             pos: self.pos
@@ -49,54 +40,45 @@
             pos: self.pos
 
 <DrawingPlane>:
-    do_scroll_x: True
-    do_scroll_y: True
-    scroll_x: .5
-    scroll_y: .5
-    size: backgroundImage.size
+    id: scatterLayout
+    size_hint: (None, None)
+    width: max(backgroundImage.width, root.width, 3000)
+    height: max(backgroundImage.height, root.height, 2000)
 
-    scatterLayout: scatterLayout.__self__
-    backgroundImage: backgroundImage.__self__
+    pos_x: (self.width/2 - self.parent.pos[0] - self.parent.width/2)
+    pos_y: (self.height/2 - self.parent.pos[1] - self.parent.height/2)
+    pos: (-self.pos_x, -self.pos_y)
 
+    do_rotation: False
+    # do_translation_y: False
     borderVisible: False
 
-    ScatterLayout:
-        id: scatterLayout
+    backgroundImage: backgroundImage.__self__
+
+    WidgetBorder:
+        border_color: .8, .8, .2, 1
+        opacity: 1
+
+        canvas.after:
+            Color:
+                rgba: .4, .4, .4, .4
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        # opacity: int(root.borderVisible)
+
+    Image:
+        id: backgroundImage
         size_hint: (None, None)
-        width: max(backgroundImage.width * self.scale, root.width)
-        height: max(backgroundImage.height * self.scale, root.height)
+        pos_hint: {"center_x": .5, "center_y": .5}
 
-        do_rotation: False
-        do_translation: False
-        
+        size: self.texture_size
+        source: "pic2.jpg"
+        color: [1, 1, 1, 0.4]
+
         WidgetBorder:
-            id: testee
-            width: self.parent.parent.width / self.parent.parent.scale
-            height: self.parent.parent.height / self.parent.parent.scale
-
-            border_width: 5 / self.parent.parent.scale
-            cross_width: 3 / self.parent.parent.scale
-            border_color: .2, .2, .8, 1
-
+            border_color: .2, .8, .8, .2
             opacity: int(root.borderVisible)
-
-        Image:
-            id: backgroundImage
-            size_hint: (None, None)
-
-            offset_x: max(0, (root.width - self.width*self.parent.parent.scale)/2)
-            offset_y: max(0, (root.height - self.height*self.parent.parent.scale)/2)
-            pos_x: max(0, self.offset_x/self.parent.parent.scale)
-            pos_y: max(0, self.offset_y/self.parent.parent.scale)
-            pos: (self.pos_x, self.pos_y)
-
-            size: self.texture_size
-            source: "pic2.jpg"
-            color: [1, 1, 1, 0.4]
-
-            WidgetBorder:
-                border_color: .2, .8, .2, 1
-                opacity: int(root.borderVisible)
 
 
 <WidgetBorder>:
@@ -121,6 +103,3 @@
         Line:
             width: self.cross_width
             points: self.x, self.y+self.height/2, self.x + self.width, self.y+self.height/2
-
-
-    

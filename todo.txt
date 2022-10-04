@@ -1,3 +1,40 @@
-1. Podświetlanie kursora
-2. Ograniczenie zooma
-3. Dodawanie elementów
+Podświetlanie kursora (opcja dolnego paska)
+
+Ustalenie pozycji startowej planszy
+Utrzymanie środka planszy przy zmianie rozmiaru okna
+Utrzymanie środka planszy przy zamykaniu i utwieraniu pasków bocznych
+Ograniczenie planszy do nie wchodzienia z obszaru
+
+Dodawanie elementów
+Przyciąganie do siatki
+Sprawdzanie kolizji z innymi elementami
+
+Edytowanie elementów
+Powiązanie edycji ze stanem na planszy
+
+Dodawanie połączeń (?)
+
+Wyświetlenie listy elementów
+
+Serializacja elementów do json
+Zapisywanie planszy
+Wczytywanie planszy
+
+Dodanie ikonki elementu
+Wyświetlanie opisu elementu po najechaniu kursorem
+
+-----------
+
+Wyszukiwanie elementów po id, nazwie lub opisie
+
+Kategoryzowanie elementów lub dodanie tagów
+
+Przesówanie elementów kursorem
+
+Obsługa klawiszy modyfikatorów
+
+-----------
+
+
+
+

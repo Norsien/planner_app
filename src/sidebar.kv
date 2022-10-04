@@ -1,0 +1,57 @@
+#:kivy 2.1.0
+
+<LeftSideBar>:
+
+<RightSideBar>:
+    is_visible: True
+    width: 270 if self.is_visible else 0
+    opacity: 1 if self.is_visible else 0
+    Row:
+        height: 50
+        Widget:
+        ButtonBox:
+            size: (50, 50)
+            Button:
+                size_hint: (None, None)
+                size: (32, 32)
+                text: "x"
+                on_press: root.is_visible = False
+    Row:
+        PropertyLabel:
+            text: "Node Name:"
+        PropertyTextInput:
+    Row:
+        PropertyLabel:
+            text: "Id:"
+        PropertyTextInput:
+    Widget:
+
+<SideBar>:
+    orientation: "vertical"
+    size_hint: (None, 1)
+    width: 270
+    canvas.before:
+        Color:
+            rgb: .4, .4, .5
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    
+<Row@BoxLayout>:
+    spacing: 2
+    padding: 4
+    orientation: "horizontal"
+    size_hint: (1, None)
+    height: 32
+
+<PropertyLabel@Label>:
+    size_hint: (None, None)
+    size: self.texture_size
+    height: 28
+
+<PropertyTextInput@TextInput>:
+    size_hint: (0.6, None)
+    height: 28
+    halign: "left"
+    multiline: False

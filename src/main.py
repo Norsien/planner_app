@@ -1,17 +1,17 @@
+from node import *
+from hoverabletogglebutton import HoverableToggleButton
+from bottombar import BottomBar, BottomPanelButton, ButtonBox
+from sidebar import SideBar
+
+from multiprocessing.sharedctypes import Value
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
-from kivy.uix.togglebutton import ToggleButton
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.relativelayout import RelativeLayout
-from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.scatterlayout import ScatterLayout
-from kivy.uix.scrollview import ScrollView
+from kivy.uix.stencilview import StencilView
 from kivy.properties import BooleanProperty, ObjectProperty, StringProperty, NumericProperty, ListProperty
-
 from kivy.graphics.transformation import Matrix
-from kivy.graphics import Color, Ellipse
-
 
 from kivy.core.window import Window
 from kivy.clock import Clock
@@ -19,8 +19,8 @@ from kivy.lang import Builder
 
 from math import floor
 
-
 Builder.load_file('bottombar.kv')
+Builder.load_file('sidebar.kv')
 
 Window.minimum_height = 400     
 Window.minimum_width = 300
@@ -30,18 +30,14 @@ class MainScreen(RelativeLayout):
     # References to other widgets
     drawingPlane = ObjectProperty(None)
     bottomBar = ObjectProperty(None)
-    
 
 class ToolBar(Widget):
     pass
 
-class SideBar(Widget):
+class DrawRegion(StencilView):
     pass
 
-class DrawRegion(AnchorLayout):
-    pass
-
-class DrawingPlane(ScrollView):
+class DrawingPlane(ScatterLayout):
     # References to other widgets
     mainScreen = ObjectProperty(None)
     scatterLayout = ObjectProperty(None)
@@ -52,50 +48,100 @@ class DrawingPlane(ScrollView):
     deleteNodesMode = BooleanProperty(False)
     borderVisible = BooleanProperty(False)
 
+    currentCursorPosition = ListProperty(None)
+    nodesList = ListProperty(None)
+
     def __init__(self, **kwargs):
         super(DrawingPlane, self).__init__(**kwargs)
         Window.bind(mouse_pos=self.get_coordinates)
 
     def get_coordinates(self, window, pos):
         if self.collide_point(*pos):
-            pos_x = (self.to_local(pos[0], pos[1])[0] - self.ids.backgroundImage.offset_x)/self.ids.scatterLayout.scale
-            pos_y = (self.to_local(pos[0], pos[1])[1] - self.ids.backgroundImage.offset_y)/self.ids.scatterLayout.scale
+            pos_x = (self.to_local(pos[0], pos[1])[0])
+            pos_y = (self.to_local(pos[0], pos[1])[1])
             pos = floor(pos_x), floor(pos_y)
-        else:
-            pos = None
-        self.mainScreen.ids.bottomBar.set_positionDisplay_value(pos)
+            self.currentCursorPosition = pos
+            self.mainScreen.ids.bottomBar.set_positionDisplay_value(pos)
 
-    def window_to_background_position(self, pos):
-        pos_x = (self.to_local(pos[0], pos[1])[0] - self.ids.backgroundImage.offset_x)/self.ids.scatterLayout.scale
-        pos_y = (self.to_local(pos[0], pos[1])[1] - self.ids.backgroundImage.offset_y)/self.ids.scatterLayout.scale
-        pos = floor(pos_x), floor(pos_y)
-        return pos
 
+    zoomOptions = ListProperty((0.5, 0.7, 0.85, 1, 1.2, 1.4, 1.7, 2.0))
+    currentZoomLevel = NumericProperty(3)
+
+    def change_scale(self, touch, val):
+        newZoomLevel = self.currentZoomLevel + val
+        if newZoomLevel < 0:
+            newZoomLevel = 0
+        elif newZoomLevel >= len(self.zoomOptions):
+            newZoomLevel = len(self.zoomOptions) - 1
+        scale = self.zoomOptions[newZoomLevel]/self.zoomOptions[self.currentZoomLevel]
+        self.apply_transform(Matrix().scale(scale, scale, scale), anchor=touch.pos)
+        self.currentZoomLevel = newZoomLevel
+
+    
+    # def transform_with_touch(self, touch):
+    #     # just do a simple one finger drag
+    #     changed = False
+    #     if len(self._touches) == self.translation_touches:
+    #         # _last_touch_pos has last pos in correct parent space,
+    #         # just like incoming touch
+    #         dx = (touch.x - self._last_touch_pos[touch][0]) \
+    #             * self.do_translation_x
+    #         dy = (touch.y - self._last_touch_pos[touch][1]) \
+    #             * self.do_translation_y
+    #         dx = dx / self.translation_touches
+    #         dy = dy / self.translation_touches
+    #         if self.pos[0] + dx < 300 or self.pos[0] + dx > 1000:
+    #             dx = 0
+    #         print(dx)
+    #         self.apply_transform(Matrix().translate(dx, dy, 0))
+    #         changed = True
+
+    #     if len(self._touches) == 1:
+    #         return changed
+
+    #     # # we have more than one touch... list of last known pos
+    #     # points = [Vector(self._last_touch_pos[t]) for t in self._touches
+    #     #           if t is not touch]
+    #     # # add current touch last
+    #     # points.append(Vector(touch.pos))
+
+    #     # # we only want to transform if the touch is part of the two touches
+    #     # # farthest apart! So first we find anchor, the point to transform
+    #     # # around as another touch farthest away from current touch's pos
+    #     # anchor = max(points[:-1], key=lambda p: p.distance(touch.pos))
+
+    #     # # now we find the touch farthest away from anchor, if its not the
+    #     # # same as touch. Touch is not one of the two touches used to transform
+    #     # farthest = max(points, key=anchor.distance)
+    #     # if farthest is not points[-1]:
+    #     #     return changed
+        
+    
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
-            relative_pos = self.window_to_background_position(touch.pos)
-
             if self.addingNewNodesMode:
-                with self.canvas:
-                    Color(1, 1, 0)
-                    d = 30.
-                    Ellipse(pos=(touch.x - d / 2, touch.y - d / 2), size=(d, d))
-                self.reset_mode()
-                self.mainScreen.ids.bottomBar.ids.createNodeButton.reset_button()
+                if touch.button == "left":
+                    self.create_new_node(self.to_local(touch.x, touch.y))
+                    self.reset_mode()
+                    self.mainScreen.ids.bottomBar.ids.createNodeButton.reset_button()
             if touch.is_mouse_scrolling:
                 if touch.button == 'scrollup':
-                    mat = Matrix().scale(.9, .9, .9)
-                    self.ids.scatterLayout.apply_transform(mat)
+                    self.change_scale(touch, -1)
                 elif touch.button == 'scrolldown':
-                    mat = Matrix().scale(1/.9, 1/.9, 1/.9)
-                    self.ids.scatterLayout.apply_transform(mat)
+                    self.change_scale(touch, 1)
             else:
-                ScrollView.on_touch_down(self, touch)
-            print(touch.pos, relative_pos)
-            print(self.scroll_x)
+                ScatterLayout.on_touch_down(self, touch)
+            print(self.children[0].children)
 
-            
+    def create_new_node(self, pos):
+        newNode = Node(pos)
+        self.draw_a_node(newNode)
 
+    def draw_a_node(self, node):
+        if node.visualNode.pos != None:
+            self.add_widget(node.visualNode)
+
+       
     def enable_addingNewNodesMode(self):
         self.reset_mode()
         self.addingNewNodesMode = True
@@ -122,101 +168,10 @@ class PlannerApp(App):
         Clock.schedule_interval(mainScreen.ids.bottomBar.display_position, 1.0/60.0)
         return mainScreen
 
-class BottomBar(BoxLayout):
-    # References to other widgets
-    mainScreen = ObjectProperty(None)
-    createNodeButton = ObjectProperty(None)
-    connectNodesButton = ObjectProperty(None)
-    deleteNodeButton = ObjectProperty(None)
-    positionDisplay = ObjectProperty(None)
-    toggleBorderButton = ObjectProperty(None)
-
-    lastPosition = StringProperty("")
-
-    def manage_nodeOptions_buttons(self):
-        if self.ids.createNodeButton.state == "down":
-            print('+')
-            self.mainScreen.ids.drawingPlane.enable_addingNewNodesMode()
-        elif self.ids.connectNodesButton.state == "down":
-            print('S')
-            self.mainScreen.ids.drawingPlane.enable_connectNodesMode()
-        elif self.ids.deleteNodeButton.state == "down":
-            print("-")
-            self.mainScreen.ids.drawingPlane.enable_deleteNodesMode()
-        else:
-            print("M")
-            self.mainScreen.ids.drawingPlane.reset_mode()
-
-    def manage_border_button(self):
-        self.mainScreen.ids.drawingPlane.toggle_border_visibility()
-        if self.ids.toggleBorderButton.state == "down":
-            print('B+')
-        else:
-            print('B-')
-
-    def set_positionDisplay_value(self, value):
-        if value != None:
-            self.lastPosition = str(value)
-
-    def display_position(self, dt):
-        self.ids.positionDisplay.text = self.lastPosition
-
-class HoverButton(ToggleButton):
-    # References to other widgets
-    bottomBar = ObjectProperty(None)
-    
-    mouseOverButton = BooleanProperty(False)
-
-    def __init__(self, **kwargs):
-        super(HoverButton, self).__init__(**kwargs)
-        Window.bind(mouse_pos=self.on_mouseover)
-
-    def on_mouseover(self, window, pos):
-        if self.collide_point(*pos):
-            Window.set_system_cursor('hand')
-            self.mouseOverButton = True
-            if self.state == "normal":
-                self.mouseover_highlight()
-        elif self.mouseOverButton:
-            Window.set_system_cursor('arrow')
-            self.mouseOverButton = False
-            if self.state == "normal":
-                self.reset_highligt()
-
-    def on_state(self, *args):
-        if self.state == "down":
-            self.pressed_highlight()
-        else: 
-            if self.mouseOverButton:
-                self.mouseover_highlight()
-            else:
-                self.reset_highligt()
-        
-
-    def reset_highligt(self):
-        self.size = (30, 30)
-        self.button_color = 0.3, 0.4, 0.9, 1
-
-    def mouseover_highlight(self):
-        self.size = (34, 34)
-        self.button_color = 0.36, 0.48, 0.99, 1
-
-    def pressed_highlight(self):
-        self.size = (34, 34)
-        self.button_color = 0.7, 0.6, 0.2, 1
-
-    def reset_button(self):
-        self.state = "normal"
-        
-
-class ButtonBox(AnchorLayout):
-    pass
-
 class WidgetBorder(Widget):
     border_width = NumericProperty(1)
     cross_width = NumericProperty(1)
     border_color = ListProperty()
-
 
 if __name__ == '__main__':
     PlannerApp().run()

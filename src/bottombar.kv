@@ -21,7 +21,7 @@
 
     ButtonBox:
         size: (34, 34)
-        HoverButton:
+        BottomPanelButton:
             id: createNodeButton
             bottomBar: root
             group: "nodeOptions"
@@ -30,7 +30,7 @@
 
     ButtonBox:
         size: (34, 34)
-        HoverButton:
+        BottomPanelButton:
             id: connectNodesButton
             bottomBar: root
             group: "nodeOptions"
@@ -39,7 +39,7 @@
 
     ButtonBox:
         size: (34, 34)
-        HoverButton:
+        BottomPanelButton:
             id: deleteNodeButton
             bottomBar: root
             group: "nodeOptions"
@@ -57,14 +57,14 @@
                 points: self.x + self.width/2, self.y, self.x + self.width/2, self.y + self.height
     ButtonBox:
         size: (34, 34)
-        HoverButton:
+        BottomPanelButton:
             id: toggleBorderButton
             bottomBar: root
             text: "B"
             on_press: self.bottomBar.manage_border_button()
     ButtonBox:
         size: (34, 34)
-        HoverButton:
+        BottomPanelButton:
             id: toggleCursorHighlight
             bottomBar: root
             text: "C"
@@ -86,12 +86,9 @@
             text: "(0, 0)"
             readonly: True
             halign: "center"
+            multiline: False
 
-
-<ButtonBox>:
-    size_hint:(None, None)
-
-<HoverButton>:
+<BottomPanelButton>:
     size_hint: (None, None)
     size: (30, 30)
     pos_hint: {"x": 0, "center_y": 0.5}
@@ -105,3 +102,6 @@
             size: self.size
             pos: self.pos
             radius: [6]
+
+<ButtonBox>:
+    size_hint:(None, None)  
