@@ -9,7 +9,7 @@ Builder.load_file('node.kv')
 
 class VisualNode(HoverableToggleButton):
 
-    node = ObjectProperty()
+    nodeData = ObjectProperty()
     drawingPlane = ObjectProperty()
 
     def __init__(self, **kwargs):
@@ -45,21 +45,21 @@ class VisualNode(HoverableToggleButton):
 
 class Node:
     def __init__(self, pos):
-        self.name = StringProperty()
+        self.name = StringProperty(defaultvalue = '?')
         self.name = "New node"
-        self.id = NumericProperty()
-
+        self.nodeId = NumericProperty()
+        self.nodeId = 1
         self.shortDescription = StringProperty()
+        self.shortDescription = "This is a new node."
         self.detailedDescription = StringProperty()
 
         self.pos = ListProperty()
         self.visualNode = ObjectProperty()
 
-
         newVisualNode = VisualNode()
         self.visualNode = newVisualNode
         self.pos = (pos[0] - newVisualNode.size[0]/2, pos[1] - newVisualNode.size[1]/2)
-        newVisualNode.node = self
+        newVisualNode.nodeData = self
 
         # position has to be bound
         newVisualNode.pos = self.pos

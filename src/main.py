@@ -60,10 +60,10 @@ class DrawingPlane(ScatterLayout):
 
     def node_selected_behaviour(self, instance, value):
         if self.currentSelectedNode == None:
-            self.mainScreen.ids.rightSideBar.close_sideBar()
+            self.mainScreen.rightSideBar.close_sideBar()
         else:
-            self.mainScreen.ids.rightSideBar.set_node_to_edit(self.currentSelectedNode.node)
-            self.mainScreen.ids.rightSideBar.open_sideBar()
+            self.mainScreen.rightSideBar.set_node_to_edit(self.currentSelectedNode.nodeData)
+            self.mainScreen.rightSideBar.open_sideBar()
 
     def get_coordinates(self, window, pos):
         if self.collide_point(*pos):
@@ -71,7 +71,7 @@ class DrawingPlane(ScatterLayout):
             pos_y = (self.to_local(pos[0], pos[1])[1])
             pos = floor(pos_x), floor(pos_y)
             self.currentCursorPosition = pos
-            self.mainScreen.ids.bottomBar.set_positionDisplay_value(pos)
+            self.mainScreen.bottomBar.set_positionDisplay_value(pos)
 
     zoomOptions = ListProperty((0.5, 0.7, 0.85, 1, 1.2, 1.4, 1.7, 2.0))
     currentZoomLevel = NumericProperty(3)
@@ -92,7 +92,7 @@ class DrawingPlane(ScatterLayout):
                 if touch.button == "left":
                     self.create_new_node(self.to_local(touch.x, touch.y))
                     self.reset_mode()
-                    self.mainScreen.ids.bottomBar.ids.createNodeButton.reset_button()
+                    self.mainScreen.bottomBar.createNodeButton.reset_button()
             if touch.is_mouse_scrolling:
                 if touch.button == 'scrollup':
                     self.change_scale(touch, -1)
@@ -100,7 +100,6 @@ class DrawingPlane(ScatterLayout):
                     self.change_scale(touch, 1)
             else:
                 ScatterLayout.on_touch_down(self, touch)
-            print(self.children[0].children)
 
     def create_new_node(self, pos):
         newNode = Node(pos)
@@ -123,7 +122,7 @@ class DrawingPlane(ScatterLayout):
 class PlannerApp(App):
     def build(self):
         mainScreen = MainScreen()
-        Clock.schedule_interval(mainScreen.ids.bottomBar.display_position, 1.0/60.0)
+        Clock.schedule_interval(mainScreen.bottomBar.display_position, 1.0/60.0)
         return mainScreen
 
 class WidgetBorder(Widget):

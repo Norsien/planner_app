@@ -6,6 +6,7 @@ Utrzymanie środka planszy przy zamykaniu i utwieraniu pasków bocznych
 Ograniczenie planszy do nie wchodzienia z obszaru
 
 Dodawanie elementów
+Ustawianie początkowych parametrów
 Przyciąganie do siatki
 Sprawdzanie kolizji z innymi elementami
 

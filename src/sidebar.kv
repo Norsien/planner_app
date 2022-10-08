@@ -4,8 +4,11 @@
     is_opened: True
 
 <RightSideBar>:
-    is_opened: False
+    nameField: nameField.__self__
+    nodeIdField: nodeIdField.__self__
+    descriptionField: descriptionField.__self__
 
+    is_opened: False
     spacing: 4
     padding: 6
     Row:
@@ -22,10 +25,12 @@
         PropertyLabel:
             text: "Name:"
         PropertyTextInput:
+            id: nameField
     Row:
         PropertyLabel:
             text: "Id:"
         PropertyTextInput: 
+            id: nodeIdField
     Row:
         PropertyLabel:
             text: "Cat:"
@@ -36,6 +41,7 @@
             text: "Desc:"
             height: 32
         PropertyTextInput:
+            id: descriptionField
             multiline: True
     Widget:
 

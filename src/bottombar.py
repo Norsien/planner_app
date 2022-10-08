@@ -20,19 +20,19 @@ class BottomBar(BoxLayout):
 
     def manage_nodeOptions_buttons(self):
         if self.currentNodeOptionButton == None:
-            self.mainScreen.ids.drawingPlane.reset_mode()
+            self.mainScreen.drawingPlane.reset_mode()
         else:
-            self.mainScreen.ids.drawingPlane.enable_mode(self.currentNodeOptionButton.buttonOption)
+            self.mainScreen.drawingPlane.enable_mode(self.currentNodeOptionButton.buttonOption)
 
     def manage_border_button(self):
-        self.mainScreen.ids.drawingPlane.toggle_border_visibility()
+        self.mainScreen.drawingPlane.toggle_border_visibility()
 
     def set_positionDisplay_value(self, value):
         if value != None:
             self.lastPosition = str(value)
 
     def display_position(self, dt):
-        self.ids.positionDisplay.text = self.lastPosition
+        self.positionDisplay.text = self.lastPosition
 
 class BottomPanelButton(HoverableToggleButton):
     # References to other widgets
