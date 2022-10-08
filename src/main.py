@@ -1,6 +1,7 @@
+from ssl import Options
 from node import *
 from hoverabletogglebutton import HoverableToggleButton
-from bottombar import BottomBar, BottomPanelButton, ButtonBox
+from bottombar import BottomBar, BottomPanelButton
 from sidebar import SideBar
 
 from multiprocessing.sharedctypes import Value
@@ -10,7 +11,7 @@ from kivy.uix.button import Button
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.scatterlayout import ScatterLayout
 from kivy.uix.stencilview import StencilView
-from kivy.properties import BooleanProperty, ObjectProperty, StringProperty, NumericProperty, ListProperty
+from kivy.properties import BooleanProperty, ObjectProperty, NumericProperty, ListProperty, OptionProperty
 from kivy.graphics.transformation import Matrix
 
 from kivy.core.window import Window
@@ -30,6 +31,7 @@ class MainScreen(RelativeLayout):
     # References to other widgets
     drawingPlane = ObjectProperty(None)
     bottomBar = ObjectProperty(None)
+    rightSideBar = ObjectProperty(None)
 
 class ToolBar(Widget):
     pass
@@ -40,20 +42,28 @@ class DrawRegion(StencilView):
 class DrawingPlane(ScatterLayout):
     # References to other widgets
     mainScreen = ObjectProperty(None)
-    scatterLayout = ObjectProperty(None)
+    drawingPlane = ObjectProperty(None)
     backgroundImage = ObjectProperty(None)
 
-    addingNewNodesMode = BooleanProperty(False)
-    connectNodesMode = BooleanProperty(False)
-    deleteNodesMode = BooleanProperty(False)
+    currentNodeMode = OptionProperty("None", options=["None", "Add", "Connect", "Delete"])
     borderVisible = BooleanProperty(False)
-
     currentCursorPosition = ListProperty(None)
+
     nodesList = ListProperty(None)
+    currentSelectedNode = ObjectProperty(None, allownone = True)
+
 
     def __init__(self, **kwargs):
         super(DrawingPlane, self).__init__(**kwargs)
         Window.bind(mouse_pos=self.get_coordinates)
+        self.bind(currentSelectedNode=self.node_selected_behaviour)
+
+    def node_selected_behaviour(self, instance, value):
+        if self.currentSelectedNode == None:
+            self.mainScreen.ids.rightSideBar.close_sideBar()
+        else:
+            self.mainScreen.ids.rightSideBar.set_node_to_edit(self.currentSelectedNode.node)
+            self.mainScreen.ids.rightSideBar.open_sideBar()
 
     def get_coordinates(self, window, pos):
         if self.collide_point(*pos):
@@ -62,7 +72,6 @@ class DrawingPlane(ScatterLayout):
             pos = floor(pos_x), floor(pos_y)
             self.currentCursorPosition = pos
             self.mainScreen.ids.bottomBar.set_positionDisplay_value(pos)
-
 
     zoomOptions = ListProperty((0.5, 0.7, 0.85, 1, 1.2, 1.4, 1.7, 2.0))
     currentZoomLevel = NumericProperty(3)
@@ -75,51 +84,11 @@ class DrawingPlane(ScatterLayout):
             newZoomLevel = len(self.zoomOptions) - 1
         scale = self.zoomOptions[newZoomLevel]/self.zoomOptions[self.currentZoomLevel]
         self.apply_transform(Matrix().scale(scale, scale, scale), anchor=touch.pos)
-        self.currentZoomLevel = newZoomLevel
-
-    
-    # def transform_with_touch(self, touch):
-    #     # just do a simple one finger drag
-    #     changed = False
-    #     if len(self._touches) == self.translation_touches:
-    #         # _last_touch_pos has last pos in correct parent space,
-    #         # just like incoming touch
-    #         dx = (touch.x - self._last_touch_pos[touch][0]) \
-    #             * self.do_translation_x
-    #         dy = (touch.y - self._last_touch_pos[touch][1]) \
-    #             * self.do_translation_y
-    #         dx = dx / self.translation_touches
-    #         dy = dy / self.translation_touches
-    #         if self.pos[0] + dx < 300 or self.pos[0] + dx > 1000:
-    #             dx = 0
-    #         print(dx)
-    #         self.apply_transform(Matrix().translate(dx, dy, 0))
-    #         changed = True
-
-    #     if len(self._touches) == 1:
-    #         return changed
-
-    #     # # we have more than one touch... list of last known pos
-    #     # points = [Vector(self._last_touch_pos[t]) for t in self._touches
-    #     #           if t is not touch]
-    #     # # add current touch last
-    #     # points.append(Vector(touch.pos))
-
-    #     # # we only want to transform if the touch is part of the two touches
-    #     # # farthest apart! So first we find anchor, the point to transform
-    #     # # around as another touch farthest away from current touch's pos
-    #     # anchor = max(points[:-1], key=lambda p: p.distance(touch.pos))
-
-    #     # # now we find the touch farthest away from anchor, if its not the
-    #     # # same as touch. Touch is not one of the two touches used to transform
-    #     # farthest = max(points, key=anchor.distance)
-    #     # if farthest is not points[-1]:
-    #     #     return changed
-        
+        self.currentZoomLevel = newZoomLevel      
     
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
-            if self.addingNewNodesMode:
+            if self.currentNodeMode == "Add":
                 if touch.button == "left":
                     self.create_new_node(self.to_local(touch.x, touch.y))
                     self.reset_mode()
@@ -139,25 +108,14 @@ class DrawingPlane(ScatterLayout):
 
     def draw_a_node(self, node):
         if node.visualNode.pos != None:
+            node.visualNode.set_drawingPlane(self)
             self.add_widget(node.visualNode)
 
-       
-    def enable_addingNewNodesMode(self):
-        self.reset_mode()
-        self.addingNewNodesMode = True
-
-    def enable_connectNodesMode(self):
-        self.reset_mode()
-        self.connectNodesMode = True
-
-    def enable_deleteNodesMode(self):
-        self.reset_mode()
-        self.deleteNodesMode = True
+    def enable_mode(self, mode):
+        self.currentNodeMode = mode
 
     def reset_mode(self):
-        self.addingNewNodesMode = False
-        self.connectNodesMode = False
-        self.deleteNodesMode = False
+        self.currentNodeMode = "None"
 
     def toggle_border_visibility(self):
         self.borderVisible = not self.borderVisible

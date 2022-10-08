@@ -23,9 +23,9 @@ Wczytywanie planszy
 Dodanie ikonki elementu
 Wyświetlanie opisu elementu po najechaniu kursorem
 
------------
+Wyszukiwanie elementów po nazwie lub opisie
 
-Wyszukiwanie elementów po id, nazwie lub opisie
+-----------
 
 Kategoryzowanie elementów lub dodanie tagów
 

@@ -19,8 +19,11 @@ class HoverableToggleButton(ToggleButton):
 
     def on_state(self, *args):
         if self.state == "down":
+            self.release_others_in_group()
+            self.select_me_in_group()
             self.pressed_highlight()
-        else: 
+        else:
+            self.release_me_in_group()
             if self.mouseOverButton:
                 self.mouseover_highlight()
             else:
@@ -34,6 +37,15 @@ class HoverableToggleButton(ToggleButton):
         pass
 
     def pressed_highlight(self):
+        pass
+
+    def release_others_in_group(self):
+        pass
+
+    def select_me_in_group(self):
+        pass
+
+    def release_me_in_group(self):
         pass
 
     def reset_button(self):

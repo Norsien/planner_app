@@ -20,6 +20,7 @@
                     id: bottomBar
                     mainScreen: root
             RightSideBar:
+                id: rightSideBar
 
 <ToolBar>:
     size_hint: (1, None)
@@ -40,7 +41,7 @@
             pos: self.pos
 
 <DrawingPlane>:
-    id: scatterLayout
+    id: drawingPlane
     size_hint: (None, None)
     width: max(backgroundImage.width, root.width, 3000)
     height: max(backgroundImage.height, root.height, 2000)
@@ -50,7 +51,6 @@
     pos: (-self.pos_x, -self.pos_y)
 
     do_rotation: False
-    # do_translation_y: False
     borderVisible: False
 
     backgroundImage: backgroundImage.__self__
@@ -91,6 +91,7 @@
     size_hint: (None, None)
     size: self.parent.size
     pos: self.parent.pos
+    
     canvas:
         Color:
             rgba: self.border_color

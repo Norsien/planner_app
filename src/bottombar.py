@@ -16,27 +16,16 @@ class BottomBar(BoxLayout):
     toggleBorderButton = ObjectProperty(None)
 
     lastPosition = StringProperty("")
+    currentNodeOptionButton = ObjectProperty(None, allownone = True)
 
     def manage_nodeOptions_buttons(self):
-        if self.ids.createNodeButton.state == "down":
-            print('+')
-            self.mainScreen.ids.drawingPlane.enable_addingNewNodesMode()
-        elif self.ids.connectNodesButton.state == "down":
-            print('S')
-            self.mainScreen.ids.drawingPlane.enable_connectNodesMode()
-        elif self.ids.deleteNodeButton.state == "down":
-            print("-")
-            self.mainScreen.ids.drawingPlane.enable_deleteNodesMode()
-        else:
-            print("M")
+        if self.currentNodeOptionButton == None:
             self.mainScreen.ids.drawingPlane.reset_mode()
+        else:
+            self.mainScreen.ids.drawingPlane.enable_mode(self.currentNodeOptionButton.buttonOption)
 
     def manage_border_button(self):
         self.mainScreen.ids.drawingPlane.toggle_border_visibility()
-        if self.ids.toggleBorderButton.state == "down":
-            print('B+')
-        else:
-            print('B-')
 
     def set_positionDisplay_value(self, value):
         if value != None:
@@ -65,5 +54,20 @@ class BottomPanelButton(HoverableToggleButton):
         self.size = (34, 34)
         self.button_color = 0.7, 0.6, 0.2, 1  
 
-class ButtonBox(AnchorLayout):
-    pass
+class NodeOptionsButton(BottomPanelButton):
+
+    buttonOption = StringProperty(None)
+
+    def release_others_in_group(self):
+        if self.bottomBar.currentNodeOptionButton != None:
+            self.bottomBar.currentNodeOptionButton.reset_button()
+            self.bottomBar.currentNodeOptionButton = None
+
+    def select_me_in_group(self):
+        self.bottomBar.currentNodeOptionButton = self
+
+    def release_me_in_group(self):
+        self.bottomBar.currentNodeOptionButton = None
+
+    def on_press(self):
+        self.bottomBar.manage_nodeOptions_buttons()

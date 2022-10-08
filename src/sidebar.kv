@@ -1,35 +1,51 @@
 #:kivy 2.1.0
 
 <LeftSideBar>:
+    is_opened: True
 
 <RightSideBar>:
-    is_visible: True
-    width: 270 if self.is_visible else 0
-    opacity: 1 if self.is_visible else 0
+    is_opened: False
+
+    spacing: 4
+    padding: 6
     Row:
-        height: 50
-        Widget:
-        ButtonBox:
-            size: (50, 50)
+        height: 40
+        orientation: "rl-tb"
+        WidgetBox:
+            size: (40, 40)
             Button:
                 size_hint: (None, None)
-                size: (32, 32)
+                size: (36, 36)
                 text: "x"
-                on_press: root.is_visible = False
+                on_press: root.is_opened = False
     Row:
         PropertyLabel:
-            text: "Node Name:"
+            text: "Name:"
         PropertyTextInput:
     Row:
         PropertyLabel:
             text: "Id:"
+        PropertyTextInput: 
+    Row:
+        PropertyLabel:
+            text: "Cat:"
+        PropertyTextInput: 
+    Row:
+        height: 160
+        PropertyLabel:
+            text: "Desc:"
+            height: 32
         PropertyTextInput:
+            multiline: True
     Widget:
 
 <SideBar>:
-    orientation: "vertical"
     size_hint: (None, 1)
-    width: 270
+    width: 270 if self.is_opened else 0
+    opacity: 1 if self.is_opened else 0
+
+    orientation: "vertical"
+
     canvas.before:
         Color:
             rgb: .4, .4, .5
@@ -38,20 +54,26 @@
             pos: self.pos
     
     
-<Row@BoxLayout>:
+<Row@StackLayout>:
     spacing: 2
     padding: 4
-    orientation: "horizontal"
+    # orientation: "horizontal"
+    orientation: "lr-tb"
     size_hint: (1, None)
     height: 32
 
 <PropertyLabel@Label>:
-    size_hint: (None, None)
-    size: self.texture_size
-    height: 28
+    size_hint: (0.2, None)
+    text_size: self.size
+    halign: 'right'
+    valign: 'middle'
+    height: self.parent.height
 
 <PropertyTextInput@TextInput>:
-    size_hint: (0.6, None)
-    height: 28
+    size_hint: (0.8, None)
+    height: self.parent.height
     halign: "left"
     multiline: False
+
+<WidgetBox@AnchorLayout>:
+    size_hint: (None, None)

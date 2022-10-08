@@ -19,32 +19,30 @@
             size: self.size
             pos: self.pos
 
-    ButtonBox:
+    WidgetBox:
         size: (34, 34)
-        BottomPanelButton:
+        NodeOptionsButton:
             id: createNodeButton
             bottomBar: root
-            group: "nodeOptions"
             text: "+"
-            on_press: self.bottomBar.manage_nodeOptions_buttons()
+            buttonOption: "Add"
 
-    ButtonBox:
+    WidgetBox:
         size: (34, 34)
-        BottomPanelButton:
+        NodeOptionsButton:
             id: connectNodesButton
             bottomBar: root
-            group: "nodeOptions"
             text: "S"
-            on_press: self.bottomBar.manage_nodeOptions_buttons()
+            buttonOption: "Connect"
 
-    ButtonBox:
+    WidgetBox:
         size: (34, 34)
-        BottomPanelButton:
+        NodeOptionsButton:
             id: deleteNodeButton
             bottomBar: root
-            group: "nodeOptions"
             text: "-"
-            on_press: self.bottomBar.manage_nodeOptions_buttons()
+            buttonOption: "Delete"
+
     Widget:
         size_hint: (None, None)
         size:(6, 32)
@@ -55,14 +53,14 @@
             Line:
                 width: 1
                 points: self.x + self.width/2, self.y, self.x + self.width/2, self.y + self.height
-    ButtonBox:
+    WidgetBox:
         size: (34, 34)
         BottomPanelButton:
             id: toggleBorderButton
             bottomBar: root
             text: "B"
             on_press: self.bottomBar.manage_border_button()
-    ButtonBox:
+    WidgetBox:
         size: (34, 34)
         BottomPanelButton:
             id: toggleCursorHighlight
@@ -70,7 +68,7 @@
             text: "C"
             # on_press: self.bottomBar.manage_border_button()
     Widget:
-    ButtonBox:
+    WidgetBox:
         anchor_x: "right"
         size: (128, 34)
         canvas:
@@ -103,5 +101,5 @@
             pos: self.pos
             radius: [6]
 
-<ButtonBox>:
+<WidgetBox@AnchorLayout>:
     size_hint:(None, None)  
