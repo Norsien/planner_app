@@ -1,4 +1,3 @@
-from ssl import Options
 from node import *
 from hoverabletogglebutton import HoverableToggleButton
 from bottombar import BottomBar, BottomPanelButton
@@ -24,7 +23,7 @@ Builder.load_file('bottombar.kv')
 Builder.load_file('sidebar.kv')
 
 Window.minimum_height = 400     
-Window.minimum_width = 300
+Window.minimum_width = 500
 Window.size = (1280, 800)
 
 class MainScreen(RelativeLayout):
@@ -37,13 +36,25 @@ class ToolBar(Widget):
     pass
 
 class DrawRegion(StencilView):
-    pass
+    def __init__(self, **kwargs):
+        self.bind(size=self.drawRegion_size_changed)
+        super().__init__(**kwargs)
+
+    def drawRegion_size_changed(self, instance, value):
+        if self.size[0] > 100 and self.size[1] > 100:
+            self.drawingPlane.recenter_plane()
 
 class DrawingPlane(ScatterLayout):
     # References to other widgets
     mainScreen = ObjectProperty(None)
     drawingPlane = ObjectProperty(None)
     backgroundImage = ObjectProperty(None)
+
+    initialRecenterDone = BooleanProperty(False)
+    previousParentWidth = NumericProperty()
+    previousParentHeight = NumericProperty()
+    zoomOptions = ListProperty((0.5, 0.7, 0.85, 1, 1.2, 1.4, 1.7, 2.0))
+    currentZoomLevel = NumericProperty(3)
 
     currentNodeMode = OptionProperty("None", options=["None", "Add", "Connect", "Delete"])
     borderVisible = BooleanProperty(False)
@@ -52,39 +63,32 @@ class DrawingPlane(ScatterLayout):
     nodesList = ListProperty(None)
     currentSelectedNode = ObjectProperty(None, allownone = True)
 
-
     def __init__(self, **kwargs):
         super(DrawingPlane, self).__init__(**kwargs)
         Window.bind(mouse_pos=self.get_coordinates)
-        self.bind(currentSelectedNode=self.node_selected_behaviour)
+        self.bind(currentSelectedNode=self.when_node_selected_behaviour)
 
-    def node_selected_behaviour(self, instance, value):
+    # should be limited to once every 1/30 sec
+    def recenter_plane(self):
+        if not self.initialRecenterDone:
+            pos_x = (self.width/2 - self.parent.pos[0] - self.parent.width/2)
+            pos_y = (self.height/2 - self.parent.pos[1] - self.parent.height/2)
+            self.pos = (-pos_x, -pos_y)
+            self.initialRecenterDone = True
+            self.previousParentWidth = self.parent.width
+            self.previousParentHeight = self.parent.height
+        else:
+            self.apply_transform(Matrix().translate((self.parent.width - self.previousParentWidth)/2, \
+                                                    (self.parent.height - self.previousParentHeight)/2, 0))
+            self.previousParentWidth = self.parent.width
+            self.previousParentHeight = self.parent.height
+
+    def when_node_selected_behaviour(self, instance, value):
         if self.currentSelectedNode == None:
             self.mainScreen.rightSideBar.close_sideBar()
         else:
             self.mainScreen.rightSideBar.set_node_to_edit(self.currentSelectedNode.nodeData)
-            self.mainScreen.rightSideBar.open_sideBar()
-
-    def get_coordinates(self, window, pos):
-        if self.collide_point(*pos):
-            pos_x = (self.to_local(pos[0], pos[1])[0])
-            pos_y = (self.to_local(pos[0], pos[1])[1])
-            pos = floor(pos_x), floor(pos_y)
-            self.currentCursorPosition = pos
-            self.mainScreen.bottomBar.set_positionDisplay_value(pos)
-
-    zoomOptions = ListProperty((0.5, 0.7, 0.85, 1, 1.2, 1.4, 1.7, 2.0))
-    currentZoomLevel = NumericProperty(3)
-
-    def change_scale(self, touch, val):
-        newZoomLevel = self.currentZoomLevel + val
-        if newZoomLevel < 0:
-            newZoomLevel = 0
-        elif newZoomLevel >= len(self.zoomOptions):
-            newZoomLevel = len(self.zoomOptions) - 1
-        scale = self.zoomOptions[newZoomLevel]/self.zoomOptions[self.currentZoomLevel]
-        self.apply_transform(Matrix().scale(scale, scale, scale), anchor=touch.pos)
-        self.currentZoomLevel = newZoomLevel      
+            self.mainScreen.rightSideBar.open_sideBar()      
     
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
@@ -100,6 +104,16 @@ class DrawingPlane(ScatterLayout):
                     self.change_scale(touch, 1)
             else:
                 ScatterLayout.on_touch_down(self, touch)
+
+    def change_scale(self, touch, val):
+        newZoomLevel = self.currentZoomLevel + val
+        if newZoomLevel < 0:
+            newZoomLevel = 0
+        elif newZoomLevel >= len(self.zoomOptions):
+            newZoomLevel = len(self.zoomOptions) - 1
+        scale = self.zoomOptions[newZoomLevel]/self.zoomOptions[self.currentZoomLevel]
+        self.apply_transform(Matrix().scale(scale, scale, scale), anchor=touch.pos)
+        self.currentZoomLevel = newZoomLevel
 
     def create_new_node(self, pos):
         newNode = Node(pos)
@@ -118,6 +132,14 @@ class DrawingPlane(ScatterLayout):
 
     def toggle_border_visibility(self):
         self.borderVisible = not self.borderVisible
+
+    def get_coordinates(self, window, pos):
+        if self.collide_point(*pos):
+            pos_x = (self.to_local(pos[0], pos[1])[0])
+            pos_y = (self.to_local(pos[0], pos[1])[1])
+            pos = floor(pos_x), floor(pos_y)
+            self.currentCursorPosition = pos
+            self.mainScreen.bottomBar.set_positionDisplay_value(pos)
 
 class PlannerApp(App):
     def build(self):

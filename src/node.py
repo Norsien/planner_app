@@ -45,7 +45,7 @@ class VisualNode(HoverableToggleButton):
 
 class Node:
     def __init__(self, pos):
-        self.name = StringProperty(defaultvalue = '?')
+        self.name = StringProperty()
         self.name = "New node"
         self.nodeId = NumericProperty()
         self.nodeId = 1

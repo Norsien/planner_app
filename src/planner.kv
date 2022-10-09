@@ -6,22 +6,21 @@
     rightSideBar: rightSideBar.__self__
 
     GridLayout:
-        rows:2
+        rows: 3
         ToolBar:
         GridLayout:
             cols: 3
             LeftSideBar:
-            GridLayout:
-                rows: 2
-                DrawRegion:
-                    DrawingPlane:
-                        id: drawingPlane
-                        mainScreen: root
-                BottomBar:
-                    id: bottomBar
+            DrawRegion:
+                drawingPlane: drawingPlane
+                DrawingPlane:
+                    id: drawingPlane
                     mainScreen: root
             RightSideBar:
                 id: rightSideBar
+        BottomBar:
+            id: bottomBar
+            mainScreen: root
 
 <ToolBar>:
     size_hint: (1, None)
@@ -41,15 +40,15 @@
             size: self.size
             pos: self.pos
 
+    WidgetBorder:
+        border_color: .4, .6, .4, 1
+        opacity: 1
+
 <DrawingPlane>:
     id: drawingPlane
     size_hint: (None, None)
-    width: max(backgroundImage.width, root.width, 3000)
-    height: max(backgroundImage.height, root.height, 2000)
-
-    pos_x: (self.width/2 - self.parent.pos[0] - self.parent.width/2)
-    pos_y: (self.height/2 - self.parent.pos[1] - self.parent.height/2)
-    pos: (-self.pos_x, -self.pos_y)
+    width: max(backgroundImage.width, root.width, 2200)
+    height: max(backgroundImage.height, root.height, 1600)
 
     do_rotation: False
     borderVisible: False
@@ -58,15 +57,7 @@
 
     WidgetBorder:
         border_color: .8, .8, .2, 1
-        opacity: 1
-
-        canvas.after:
-            Color:
-                rgba: .4, .4, .4, .4
-            Rectangle:
-                size: self.size
-                pos: self.pos
-        # opacity: int(root.borderVisible)
+        opacity: int(root.borderVisible)
 
     Image:
         id: backgroundImage
@@ -98,7 +89,16 @@
             rgba: self.border_color
         Line:
             width: self.border_width
-            rectangle: self.x, self.y, self.width, self.height
+            points: self.x, self.y, self.x + self.width, self.y
+        Line:
+            width: self.border_width
+            points: self.x, self.y, self.x, self.y + self.height 
+        Line:
+            width: self.border_width
+            points: self.x, self.y + self.height, self.x + self.width, self.y + self.height
+        Line:
+            width: self.border_width
+            points: self.x + self.width, self.y, self.x + self.width, self.y + self.height
         Line:
             width: self.cross_width
             points: self.x + self.width/2, self.y, self.x + self.width/2, self.y + self.height

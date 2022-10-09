@@ -1,8 +1,6 @@
 Podświetlanie kursora (opcja dolnego paska)
 
-Ustalenie pozycji startowej planszy
-Utrzymanie środka planszy przy zmianie rozmiaru okna
-Utrzymanie środka planszy przy zamykaniu i utwieraniu pasków bocznych
+Ograniczenie częstotliwośći aktualizacji planszy
 Ograniczenie planszy do nie wchodzienia z obszaru
 
 Dodawanie elementów
