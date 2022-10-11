@@ -40,15 +40,11 @@
             size: self.size
             pos: self.pos
 
-    WidgetBorder:
-        border_color: .4, .6, .4, 1
-        opacity: 1
-
 <DrawingPlane>:
     id: drawingPlane
     size_hint: (None, None)
-    width: max(backgroundImage.width, root.width, 2200)
-    height: max(backgroundImage.height, root.height, 1600)
+    width: max(backgroundImage.width, root.width, 3000)
+    height: max(backgroundImage.height, root.height, 2000)
 
     do_rotation: False
     borderVisible: False
