@@ -1,10 +1,13 @@
-from hoverabletogglebutton import HoverableToggleButton
+from ui.hoverabletogglebutton import HoverableToggleButton
 
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty, StringProperty
 
 from kivy.core.window import Window
+from kivy.lang import Builder
+
+Builder.load_file('ui/kv/bottombar.kv')
 
 class BottomBar(BoxLayout):
     # References to other widgets

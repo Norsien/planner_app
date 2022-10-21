@@ -1,6 +1,10 @@
 from kivy.properties import BooleanProperty, ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
-from node import Node
+from ui.node import Node
+
+from kivy.lang import Builder
+
+Builder.load_file('ui/kv/sidebar.kv')
 
 class SideBar(BoxLayout):
     is_opened = BooleanProperty(False)

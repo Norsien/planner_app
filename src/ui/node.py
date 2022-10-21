@@ -1,11 +1,11 @@
-from hoverabletogglebutton import HoverableToggleButton
+from ui.hoverabletogglebutton import HoverableToggleButton
 
 from kivy.properties import NumericProperty, StringProperty, ListProperty, ObjectProperty
 
 from kivy.lang import Builder
 from kivy.core.window import Window
 
-Builder.load_file('node.kv')
+Builder.load_file('ui/kv/node.kv')
 
 class VisualNode(HoverableToggleButton):
 
