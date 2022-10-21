@@ -1,12 +1,9 @@
 from ui.node import *
 from ui.bottombar import BottomBar, BottomPanelButton
 from ui.sidebar import SideBar
+from ui.visualwidgetborder import VisualWidgetBorder
 
-from kivy.app import App
-from kivy.uix.widget import Widget
-from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.scatterlayout import ScatterLayout
-from kivy.uix.stencilview import StencilView
 from kivy.properties import BooleanProperty, ObjectProperty, NumericProperty, ListProperty, OptionProperty
 from kivy.graphics.transformation import Matrix
 
@@ -16,29 +13,9 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.lang import Builder
 
-Builder.load_file('ui/kv/planner.kv')
+from kivy.lang import Builder
 
-Window.minimum_height = 400     
-Window.minimum_width = 500
-Window.size = (1280, 800)
-
-class MainScreen(RelativeLayout):
-    # References to other widgets
-    drawingPlane = ObjectProperty(None)
-    bottomBar = ObjectProperty(None)
-    rightSideBar = ObjectProperty(None)
-
-class ToolBar(Widget):
-    pass
-
-class DrawRegion(StencilView):
-    def __init__(self, **kwargs):
-        self.bind(size=self.drawRegion_size_changed)
-        super().__init__(**kwargs)
-
-    def drawRegion_size_changed(self, instance, value):
-        if self.size[0] > 100 and self.size[1] > 100:
-            self.drawingPlane.recenter_plane()
+Builder.load_file('ui/kv/drawingplane.kv')
 
 class DrawingPlane(ScatterLayout):
     # References to other widgets
@@ -136,14 +113,3 @@ class DrawingPlane(ScatterLayout):
             pos = floor(pos_x), floor(pos_y)
             self.currentCursorPosition = pos
             self.mainScreen.bottomBar.set_positionDisplay_value(pos)
-
-class PlannerApp(App):
-    def build(self):
-        mainScreen = MainScreen()
-        Clock.schedule_interval(mainScreen.bottomBar.display_position, 1.0/60.0)
-        return mainScreen
-
-class WidgetBorder(Widget):
-    border_width = NumericProperty(1)
-    cross_width = NumericProperty(1)
-    border_color = ListProperty()

@@ -1,4 +1,4 @@
-from ui.planner import PlannerApp
+from ui.mindmap import MindMapApp
 
 if __name__ == '__main__':
-    PlannerApp().run()
+    MindMapApp().run()

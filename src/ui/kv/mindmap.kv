@@ -1,0 +1,36 @@
+#:kivy 2.1.0
+
+<MainScreen>:
+    drawingPlane: drawingPlane.__self__
+    bottomBar: bottomBar.__self__
+    rightSideBar: rightSideBar.__self__
+
+    GridLayout:
+        rows: 3
+        ToolBar:
+        GridLayout:
+            cols: 3
+            LeftSideBar:
+            DrawRegion:
+                drawingPlane: drawingPlane
+                DrawingPlane:
+                    id: drawingPlane
+                    mainScreen: root
+            RightSideBar:
+                id: rightSideBar
+        BottomBar:
+            id: bottomBar
+            mainScreen: root
+
+<ToolBar@Widget>:
+    size_hint: (1, None)
+    height: 18
+    canvas:
+        Color:
+            rgb: .7, .7, .7
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<WidgetBox@AnchorLayout>:
+    size_hint:(None, None)  
