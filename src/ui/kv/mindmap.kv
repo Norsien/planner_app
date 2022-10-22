@@ -1,21 +1,23 @@
 #:kivy 2.1.0
 
 <MainScreen>:
-    drawingPlane: drawingPlane.__self__
-    bottomBar: bottomBar.__self__
+    toolBar: toolBar.__self__
+    leftSideBar: leftSideBar.__self__
     rightSideBar: rightSideBar.__self__
+    bottomBar: bottomBar.__self__
+    drawRegion: drawRegion.__self__
 
     GridLayout:
         rows: 3
         ToolBar:
+            id: toolBar
         GridLayout:
             cols: 3
             LeftSideBar:
+                id: leftSideBar
             DrawRegion:
-                drawingPlane: drawingPlane
-                DrawingPlane:
-                    id: drawingPlane
-                    mainScreen: root
+                id: drawRegion
+                mainScreen: root
             RightSideBar:
                 id: rightSideBar
         BottomBar:

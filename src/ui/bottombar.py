@@ -12,23 +12,24 @@ Builder.load_file('ui/kv/bottombar.kv')
 class BottomBar(BoxLayout):
     # References to other widgets
     mainScreen = ObjectProperty(None)
+
     createNodeButton = ObjectProperty(None)
     connectNodesButton = ObjectProperty(None)
     deleteNodeButton = ObjectProperty(None)
-    positionDisplay = ObjectProperty(None)
     toggleBorderButton = ObjectProperty(None)
+    positionDisplay = ObjectProperty(None)
 
     lastPosition = StringProperty("")
     currentNodeOptionButton = ObjectProperty(None, allownone = True)
 
     def manage_nodeOptions_buttons(self):
         if self.currentNodeOptionButton == None:
-            self.mainScreen.drawingPlane.reset_mode()
+            self.mainScreen.drawRegion.currentDrawingPlane.reset_mode()
         else:
-            self.mainScreen.drawingPlane.enable_mode(self.currentNodeOptionButton.buttonOption)
+            self.mainScreen.drawRegion.currentDrawingPlane.enable_mode(self.currentNodeOptionButton.buttonOption)
 
     def manage_border_button(self):
-        self.mainScreen.drawingPlane.toggle_border_visibility()
+        self.mainScreen.drawRegion.currentDrawingPlane.toggle_border_visibility()
 
     def set_positionDisplay_value(self, value):
         if value != None:

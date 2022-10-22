@@ -1,3 +1,4 @@
+from xml.dom.minicompat import NodeList
 from ui.node import *
 from ui.bottombar import BottomBar, BottomPanelButton
 from ui.sidebar import SideBar
@@ -19,8 +20,7 @@ Builder.load_file('ui/kv/drawingplane.kv')
 
 class DrawingPlane(ScatterLayout):
     # References to other widgets
-    mainScreen = ObjectProperty(None)
-    drawingPlane = ObjectProperty(None)
+    drawRegion = ObjectProperty(None)
     backgroundImage = ObjectProperty(None)
 
     initialRecenterDone = BooleanProperty(False)
@@ -33,15 +33,15 @@ class DrawingPlane(ScatterLayout):
     borderVisible = BooleanProperty(False)
     currentCursorPosition = ListProperty(None)
 
-    nodesList = ListProperty(None)
+    nodesList = ListProperty([])
     currentSelectedNode = ObjectProperty(None, allownone = True)
 
     def __init__(self, **kwargs):
-        super(DrawingPlane, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         Window.bind(mouse_pos=self.get_coordinates)
         self.bind(currentSelectedNode=self.when_node_selected_behaviour)
 
-    # should be limited to once every 1/30 sec
+    # # should be limited to once every 1/30 sec
     def recenter_plane(self):
         if not self.initialRecenterDone:
             pos_x = (self.width/2 - self.parent.pos[0] - self.parent.width/2)
@@ -58,10 +58,11 @@ class DrawingPlane(ScatterLayout):
 
     def when_node_selected_behaviour(self, instance, value):
         if self.currentSelectedNode == None:
-            self.mainScreen.rightSideBar.close_sideBar()
+            self.drawRegion.mainScreen.rightSideBar.set_node_to_edit(None)
+            self.drawRegion.mainScreen.rightSideBar.close_sideBar()
         else:
-            self.mainScreen.rightSideBar.set_node_to_edit(self.currentSelectedNode.nodeData)
-            self.mainScreen.rightSideBar.open_sideBar()      
+            self.drawRegion.mainScreen.rightSideBar.set_node_to_edit(self.currentSelectedNode.nodeData)
+            self.drawRegion.mainScreen.rightSideBar.open_sideBar()  
     
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
@@ -69,7 +70,6 @@ class DrawingPlane(ScatterLayout):
                 if touch.button == "left":
                     self.create_new_node(self.to_local(touch.x, touch.y))
                     self.reset_mode()
-                    self.mainScreen.bottomBar.createNodeButton.reset_button()
             if touch.is_mouse_scrolling:
                 if touch.button == 'scrollup':
                     self.change_scale(touch, -1)
@@ -90,6 +90,7 @@ class DrawingPlane(ScatterLayout):
 
     def create_new_node(self, pos):
         newNode = Node(pos)
+        self.nodesList.append(newNode)
         self.draw_a_node(newNode)
 
     def draw_a_node(self, node):
@@ -102,6 +103,7 @@ class DrawingPlane(ScatterLayout):
 
     def reset_mode(self):
         self.currentNodeMode = "None"
+        self.drawRegion.mainScreen.bottomBar.createNodeButton.reset_button()
 
     def toggle_border_visibility(self):
         self.borderVisible = not self.borderVisible
@@ -112,4 +114,4 @@ class DrawingPlane(ScatterLayout):
             pos_y = (self.to_local(pos[0], pos[1])[1])
             pos = floor(pos_x), floor(pos_y)
             self.currentCursorPosition = pos
-            self.mainScreen.bottomBar.set_positionDisplay_value(pos)
+            self.drawRegion.mainScreen.bottomBar.set_positionDisplay_value(pos)

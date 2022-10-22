@@ -43,7 +43,12 @@ class VisualNode(HoverableToggleButton):
     def set_drawingPlane(self, drawingPlane):
         self.drawingPlane = drawingPlane
 
+    def delete(self):
+        self.reset_button()
+        self.drawingPlane.remove_widget(self)
+
 class Node:
+
     def __init__(self, pos):
         self.name = StringProperty()
         self.name = "New node"
@@ -63,6 +68,11 @@ class Node:
 
         # position has to be bound
         newVisualNode.pos = self.pos
+    
+    def delete(self):
+        self.visualNode.delete()
+        self.visualNode.drawingPlane.nodesList.remove(self)
+
 
 
 

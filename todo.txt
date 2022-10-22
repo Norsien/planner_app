@@ -1,32 +1,37 @@
-Podświetlanie kursora (opcja dolnego paska)
+# UI
 
+Podświetlanie kursora (opcja dolnego paska)
 Ograniczenie częstotliwośći aktualizacji planszy
 Ograniczenie planszy do nie wchodzienia z obszaru
 
+# Node
 Dodawanie elementów
-Ustawianie początkowych parametrów
+Edytowanie elementów
+Sprawdzenie czy elementy są poprawnie usuwane
+Dodanie popup do usuwania
+Ustawianie początkowych parametrów w inny sposób
 Przyciąganie do siatki
 Sprawdzanie kolizji z innymi elementami
 
-Edytowanie elementów
 Powiązanie edycji ze stanem na planszy
 
-Dodawanie połączeń (?)
+Połączenie Node i VisualNode w jedność (?) 
+
+Dodawanie połączeń
 
 Wyświetlenie listy elementów
 
-Serializacja elementów do json
-Zapisywanie planszy
-Wczytywanie planszy
+Zapisywanie elementów/planszy do bazy
+Wczytywanie elementów/planszy z bazy
 
 Dodanie ikonki elementu
 Wyświetlanie opisu elementu po najechaniu kursorem
 
 Wyszukiwanie elementów po nazwie lub opisie
 
------------
-
 Kategoryzowanie elementów lub dodanie tagów
+
+-----------
 
 Przesówanie elementów kursorem
 

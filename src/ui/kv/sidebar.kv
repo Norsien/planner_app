@@ -20,17 +20,19 @@
                 size_hint: (None, None)
                 size: (36, 36)
                 text: "x"
-                on_press: root.is_opened = False
+                on_press: root.close_sideBar()
     Row:
         PropertyLabel:
             text: "Name:"
         PropertyTextInput:
             id: nameField
+            sideBar: root
     Row:
         PropertyLabel:
             text: "Id:"
         PropertyTextInput: 
             id: nodeIdField
+            sideBar: root
     Row:
         PropertyLabel:
             text: "Cat:"
@@ -43,6 +45,17 @@
         PropertyTextInput:
             id: descriptionField
             multiline: True
+            sideBar: root
+    Row:
+        height: 40
+        orientation: "lr-tb"
+        WidgetBox:
+            size: (40, 40)
+            Button:
+                size_hint: (None, None)
+                size: (36, 36)
+                text: "del"
+                on_press: root.delete_current_node()
     Widget:
 
 <SideBar>:
@@ -75,11 +88,8 @@
     valign: 'middle'
     height: self.parent.height
 
-<PropertyTextInput@TextInput>:
+<PropertyTextInput>:
     size_hint: (0.8, None)
     height: self.parent.height
     halign: "left"
     multiline: False
-
-<WidgetBox@AnchorLayout>:
-    size_hint: (None, None)

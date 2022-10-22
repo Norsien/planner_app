@@ -1,9 +1,14 @@
 #:kivy 2.1.0
 
 <DrawRegion>:
+    currentDrawingPlane: drawingPlane.__self__
+
     canvas:
         Color:
             rgb: .16, .12, .12
         Rectangle:
             size: self.size
             pos: self.pos
+    DrawingPlane:
+        id: drawingPlane
+        drawRegion: root

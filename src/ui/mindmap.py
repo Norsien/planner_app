@@ -18,10 +18,12 @@ Window.minimum_width = 500
 Window.size = (1280, 800)
 
 class MainScreen(RelativeLayout):
-    # References to other widgets
-    drawingPlane = ObjectProperty(None)
-    bottomBar = ObjectProperty(None)
+    # References to window widgets
+    toolBar = ObjectProperty(None)
+    leftSideBar = ObjectProperty(None)
     rightSideBar = ObjectProperty(None)
+    bottomBar = ObjectProperty(None)
+    drawRegion = ObjectProperty(None)
 
 class MindMapApp(App):
     def build(self):
