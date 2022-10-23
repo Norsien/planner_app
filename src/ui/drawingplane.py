@@ -33,7 +33,7 @@ class DrawingPlane(ScatterLayout):
     borderVisible = BooleanProperty(False)
     currentCursorPosition = ListProperty(None)
 
-    nodesList = ListProperty([])
+    nodeList = ListProperty([])
     currentSelectedNode = ObjectProperty(None, allownone = True)
 
     def __init__(self, **kwargs):
@@ -61,7 +61,7 @@ class DrawingPlane(ScatterLayout):
             self.drawRegion.mainScreen.rightSideBar.set_node_to_edit(None)
             self.drawRegion.mainScreen.rightSideBar.close_sideBar()
         else:
-            self.drawRegion.mainScreen.rightSideBar.set_node_to_edit(self.currentSelectedNode.nodeData)
+            self.drawRegion.mainScreen.rightSideBar.set_node_to_edit(self.currentSelectedNode)
             self.drawRegion.mainScreen.rightSideBar.open_sideBar()  
     
     def on_touch_down(self, touch):
@@ -90,13 +90,13 @@ class DrawingPlane(ScatterLayout):
 
     def create_new_node(self, pos):
         newNode = Node(pos)
-        self.nodesList.append(newNode)
+        self.nodeList.append(newNode)
         self.draw_a_node(newNode)
 
     def draw_a_node(self, node):
-        if node.visualNode.pos != None:
-            node.visualNode.set_drawingPlane(self)
-            self.add_widget(node.visualNode)
+        if node.pos != None:
+            node.set_drawingPlane(self)
+            self.add_widget(node)
 
     def enable_mode(self, mode):
         self.currentNodeMode = mode

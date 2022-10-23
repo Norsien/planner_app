@@ -1,3 +1,4 @@
+from tokenize import String
 from ui.hoverabletogglebutton import HoverableToggleButton
 
 from kivy.properties import NumericProperty, StringProperty, ListProperty, ObjectProperty
@@ -7,18 +8,24 @@ from kivy.core.window import Window
 
 Builder.load_file('ui/kv/node.kv')
 
-class VisualNode(HoverableToggleButton):
+class Node(HoverableToggleButton):
 
     nodeData = ObjectProperty()
     drawingPlane = ObjectProperty()
 
-    def __init__(self, **kwargs):
-        super(VisualNode, self).__init__(**kwargs)
+    name = StringProperty("New node")
+    nodeId = NumericProperty(1)
+    shortDescription = StringProperty("This is a new node.")
+    detailedDescription = StringProperty()
+
+    def __init__(self, pos, **kwargs):
+        super(Node, self).__init__(**kwargs)
         Window.bind(mouse_pos=self.on_mouseover)
+        self.pos = (pos[0] - self.size[0]/2, pos[1] - self.size[1]/2)
 
     def on_mouseover(self, window, pos):
         pos = self.drawingPlane.to_local(pos[0], pos[1])
-        super(VisualNode, self).on_mouseover(window, pos)
+        super(Node, self).on_mouseover(window, pos)
 
     def reset_highligt(self):
         self.button_color = 0.4, 0.7, 0.4, .4
@@ -46,33 +53,4 @@ class VisualNode(HoverableToggleButton):
     def delete(self):
         self.reset_button()
         self.drawingPlane.remove_widget(self)
-
-class Node:
-
-    def __init__(self, pos):
-        self.name = StringProperty()
-        self.name = "New node"
-        self.nodeId = NumericProperty()
-        self.nodeId = 1
-        self.shortDescription = StringProperty()
-        self.shortDescription = "This is a new node."
-        self.detailedDescription = StringProperty()
-
-        self.pos = ListProperty()
-        self.visualNode = ObjectProperty()
-
-        newVisualNode = VisualNode()
-        self.visualNode = newVisualNode
-        self.pos = (pos[0] - newVisualNode.size[0]/2, pos[1] - newVisualNode.size[1]/2)
-        newVisualNode.nodeData = self
-
-        # position has to be bound
-        newVisualNode.pos = self.pos
-    
-    def delete(self):
-        self.visualNode.delete()
-        self.visualNode.drawingPlane.nodesList.remove(self)
-
-
-
-
+        self.drawingPlane.nodeList.remove(self)

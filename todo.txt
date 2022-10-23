@@ -1,42 +1,41 @@
 # UI
 
-Podświetlanie kursora (opcja dolnego paska)
-Ograniczenie częstotliwośći aktualizacji planszy
-Ograniczenie planszy do nie wchodzienia z obszaru
+    Podświetlanie kursora (opcja dolnego paska)
+    Ograniczenie częstotliwośći aktualizacji planszy (może)
+    Ograniczenie planszy do nie wchodzienia z obszaru
+    Ograniczenie hitboxu planszy
 
 # Node
-Dodawanie elementów
-Edytowanie elementów
-Sprawdzenie czy elementy są poprawnie usuwane
-Dodanie popup do usuwania
-Ustawianie początkowych parametrów w inny sposób
-Przyciąganie do siatki
-Sprawdzanie kolizji z innymi elementami
+    Dodawanie elementów
+    - z pozycji listy
+    - Ustawianie początkowych parametrów w inny sposób
+    Edytowanie elementów
+    - kolejność sprawdzania, walidacjia i zapisywanie
+    - Do stuff before swapping
+    Sprawdzenie czy elementy są poprawnie usuwane
+    Dodanie popup do usuwania
 
-Powiązanie edycji ze stanem na planszy
+    Dodanie ikonki elementu
+    Wyświetlanie opisu elementu po najechaniu kursorem
+    
+    Przyciąganie do siatki
+    Sprawdzanie kolizji z innymi elementami
 
-Połączenie Node i VisualNode w jedność (?) 
+# Connections
+    Dodawanie połączeń
 
-Dodawanie połączeń
+# NodeList
+    Wyświetlenie listy elementów
+    Wyszukiwanie elementów po nazwie lub opisie
+    Kategoryzowanie elementów lub dodanie tagów
 
-Wyświetlenie listy elementów
-
-Zapisywanie elementów/planszy do bazy
-Wczytywanie elementów/planszy z bazy
-
-Dodanie ikonki elementu
-Wyświetlanie opisu elementu po najechaniu kursorem
-
-Wyszukiwanie elementów po nazwie lub opisie
-
-Kategoryzowanie elementów lub dodanie tagów
+# Database
+    Zapisywanie elementów/planszy do bazy
+    Wczytywanie elementów/planszy z bazy
 
 -----------
-
 Przesówanie elementów kursorem
-
 Obsługa klawiszy modyfikatorów
-
 -----------
 
 

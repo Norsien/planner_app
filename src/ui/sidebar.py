@@ -28,8 +28,9 @@ class RightSideBar(SideBar):
     def close_sideBar(self):
         self.is_opened = False
 
-    def set_node_to_edit(self, nodeData):
-        self.currentSelectedNode = nodeData
+    def set_node_to_edit(self, node):
+        self.do_stuff_before_swapping()
+        self.currentSelectedNode = node
         self.display_node_properties()
 
     def display_node_properties(self):
@@ -38,36 +39,40 @@ class RightSideBar(SideBar):
         else:
             self.clear_fields()
 
-    def set_nameField(self, text):
-        self.nameField.text = text
-
-    def set_nodeIdField(self, text):
-        self.nodeIdField.text = text
-
-    def set_descriptionField(self, text):
-        self.descriptionField.text = text
-
+    def set_field(self, field, value):
+        if hasattr(self, field):
+            textField = getattr(self, field)
+            textField.text = value
+        else:
+            print("attr does not exist")
+        
     def set_fields(self, node):
-        self.set_nameField(str(node.name))
-        self.set_nodeIdField(str(node.nodeId))
-        self.set_descriptionField(str(node.shortDescription))
+        self.set_field("nameField", str(node.name))
+        self.set_field("nodeIdField", str(node.nodeId))
+        self.set_field("descriptionField", str(node.shortDescription))
 
     def clear_fields(self):
-        self.set_nameField("")
-        self.set_nodeIdField("")
-        self.set_descriptionField("")
+        self.set_field("nameField", "")
+        self.set_field("nodeIdField", "")
+        self.set_field("descriptionField", "")
 
     def delete_current_node(self):
         if self.currentSelectedNode != None:
             print("delete pop up")
             self.currentSelectedNode.delete()
 
-    def update_current_node(self):
-        print("updating now")
+    def do_stuff_before_swapping(self):
+        self.nameField.focus = False
+        self.nodeIdField.focus = False
+        self.descriptionField.focus = False
 
 class PropertyTextInput(TextInput):
     sideBar = ObjectProperty(None)
 
     def on_focus(self, what, value):
         if value == False:
-            print("Validate input and save now")
+            print("Pora zmienic: ")
+            print(self.property, self.sideBar.currentSelectedNode)
+            setattr(self.sideBar.currentSelectedNode, self.property, self.text)
+
+    

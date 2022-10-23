@@ -27,16 +27,22 @@
         PropertyTextInput:
             id: nameField
             sideBar: root
+            property: "name"
+            focus_previous: None
+            focus_next: nodeIdField
     Row:
         PropertyLabel:
             text: "Id:"
         PropertyTextInput: 
             id: nodeIdField
             sideBar: root
-    Row:
-        PropertyLabel:
-            text: "Cat:"
-        PropertyTextInput: 
+            property: "nodeId"
+            focus_previous: nameField
+            focus_next: descriptionField
+    # Row:
+    #     PropertyLabel:
+    #         text: "Cat:"
+    #     PropertyTextInput: 
     Row:
         height: 160
         PropertyLabel:
@@ -46,6 +52,9 @@
             id: descriptionField
             multiline: True
             sideBar: root
+            property: "shortDescription"
+            focus_previous: nodeIdField
+            focus_next: None
     Row:
         height: 40
         orientation: "lr-tb"
