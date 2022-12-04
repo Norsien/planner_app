@@ -1,7 +1,7 @@
 #:kivy 2.1.0
 
 <MainScreen>:
-    toolBar: toolBar.__self__
+    topBar: topBar.__self__
     leftSideBar: leftSideBar.__self__
     rightSideBar: rightSideBar.__self__
     bottomBar: bottomBar.__self__
@@ -9,8 +9,9 @@
 
     GridLayout:
         rows: 3
-        ToolBar:
-            id: toolBar
+        TopBar:
+            id: topBar
+            mainScreen: root
         GridLayout:
             cols: 3
             LeftSideBar:
@@ -23,16 +24,6 @@
         BottomBar:
             id: bottomBar
             mainScreen: root
-
-<ToolBar@Widget>:
-    size_hint: (1, None)
-    height: 18
-    canvas:
-        Color:
-            rgb: .7, .7, .7
-        Rectangle:
-            size: self.size
-            pos: self.pos
 
 <WidgetBox@AnchorLayout>:
     size_hint:(None, None)  

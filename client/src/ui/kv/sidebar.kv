@@ -1,0 +1,167 @@
+#:kivy 2.1.0
+
+<LeftSideBar>:
+    nodeList: nodeList.__self__
+    filterField: filterField.__self__
+
+    is_opened: True
+    spacing: 4
+    padding: 6
+    BoxLayout:
+        size_hint: (1, None)
+        height: 40
+        Label:
+            text: "Node list"
+            size_hint: (1, None)
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+            padding_x: 6
+            font_size: '20sp'
+            height: self.parent.height
+        WidgetBox:
+            size: (40, 40)
+            Button:
+                size_hint: (None, None)
+                size: (36, 36) if root.is_opened else (0, 0)
+                text: "x"
+                on_press: root.close_sideBar()
+                opacity: 1 if root.is_opened else 0
+    BoxLayout:
+        size_hint: (1, 1)
+        orientation: "vertical"
+        spacing: 4
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint: (1, None)
+            height: 34 
+            spacing: 2
+            padding: [0, 2, 0, 0]
+            TextInput:
+                id: filterField
+                size_hint: (1, None)
+                multiline: False
+                height: 30 if root.is_opened else 0
+                opacity: 1 if root.is_opened else 0
+                on_text_validate: root.handle_filter()
+            Button:
+                text: "Filter"
+                size_hint: (None, None)
+                size: (50, 30) if root.is_opened else (0, 0)
+                opacity: 1 if root.is_opened else 0
+                on_press: root.handle_filter()
+        ScrollView:
+            BoxLayout:
+                orientation: "vertical"
+                id: nodeList
+                spacing: 2
+                padding: [0, 2, 0, 0]
+                size_hint_y: None
+                height: self.minimum_height
+
+<RightSideBar>:
+    nameField: nameField.__self__
+    descriptionField: descriptionField.__self__
+
+    is_opened: False
+    spacing: 4
+    padding: 6
+    SidebarRow:
+        height: 40
+        orientation: "rl-tb"
+        WidgetBox:
+            size: (40, 40)
+            Button:
+                size_hint: (None, None)
+                size: (36, 36) if root.is_opened else (0, 0)
+                text: "x"
+                on_press: root.close_sideBar()
+                opacity: 1 if root.is_opened else 0
+    SidebarRow:
+        PropertyLabel:
+            text: "Name:"
+        PropertyTextInput:
+            id: nameField
+            sideBar: root
+            property: "name"
+            focus_previous: None
+            focus_next: descriptionField
+    SidebarRow:
+        height: 160
+        PropertyLabel:
+            text: "Desc:"
+            height: 32
+        PropertyTextInput:
+            id: descriptionField
+            multiline: True
+            sideBar: root
+            property: "shortDescription"
+            focus_previous: nameField
+            focus_next: None
+    SidebarRow:
+        height: 40
+        orientation: "lr-tb"
+        WidgetBox:
+            size: (40, 40)
+            Button:
+                size_hint: (None, None)
+                size: (36, 36)
+                text: "del"
+                on_press: root.delete_current_node()
+    Widget:
+
+<SideBar>:
+    size_hint: (None, 1)
+    width: 270 if self.is_opened else 0
+    opacity: 1 if self.is_opened else 0
+
+    orientation: "vertical"
+
+    canvas.before:
+        Color:
+            rgb: .4, .4, .5
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<NodeItem>:
+    size_hint: (1, None)
+    height: 20
+    on_press: self.select_node()
+    # nodeItemButton: nodeItemButton.__self__
+    background_color: 1, 1, 1, 0
+    color: 1, 1, 1, 1
+    button_color: .35, .5, .35, 1
+    default_color: .35, .5, .35, 1
+    highlight_color: 0.55, 0.8, 0.55, 1
+    text: self.nodeName
+    text_size: self.size
+    valign: "middle"
+    padding_x: 5
+    
+    canvas.before:
+        Color:
+            rgba: self.button_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+<SidebarRow@StackLayout>:
+    spacing: 2
+    padding: 4
+    orientation: "lr-tb"
+    size_hint: (1, None)
+    height: 32
+
+<PropertyLabel@Label>:
+    size_hint: (0.2, None)
+    text_size: self.size
+    halign: 'right'
+    valign: 'middle'
+    height: self.parent.height
+
+<PropertyTextInput>:
+    size_hint: (0.8, None)
+    height: self.parent.height
+    halign: "left"
+    multiline: False

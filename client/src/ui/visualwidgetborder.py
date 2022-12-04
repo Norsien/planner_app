@@ -6,6 +6,6 @@ from kivy.lang import Builder
 Builder.load_file('ui/kv/visualwidgetborder.kv')
 
 class VisualWidgetBorder(Widget):
-    border_width = NumericProperty(1)
-    cross_width = NumericProperty(1)
-    border_color = ListProperty()
+    border_width: int = NumericProperty(1)
+    cross_width: int = NumericProperty(1)
+    border_color: list = ListProperty()

@@ -61,7 +61,7 @@
             id: toggleBorderButton
             bottomBar: root
             text: "B"
-            on_press: self.bottomBar.manage_border_button()
+            on_press: self.bottomBar.set_border_button(True if self.state == 'down' else False) 
     WidgetBox:
         size: (34, 34)
         BottomPanelButton:
