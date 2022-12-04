@@ -1,0 +1,49 @@
+#:kivy 2.1.0
+
+<NodeTooltip>:
+    size_hint: (None, None)
+    height: self.minimum_height
+    width: 300
+    orientation: "vertical"
+    canvas:
+        Color:
+            rgba: .25, .25, .45, .8
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    SidebarRow:
+        TooltipLabel:
+            text: "Name:"
+        TooltipValue:
+            text: root.node.name
+    SidebarRow:
+        descValue: descValue
+        height: self.descValue.height + 2*self.padding[0]
+        TooltipLabel:
+            text: "Desc:"
+        TooltipValue:
+            id: descValue
+            max_lines: 12
+            text: root.node.shortDescription
+
+<SidebarRow@StackLayout>:
+    spacing: 4
+    padding: 6
+    orientation: "lr-tb"
+    size_hint: (1, None)
+    height: 24
+
+<TooltipLabel@Label>:
+    size_hint: (0.2, None)
+    text_size: self.size
+    halign: 'right'
+    valign: 'top'
+    height: 24
+
+<TooltipValue@Label>:
+    size_hint: (0.8, None)
+    text_size: self.width, None
+    halign: 'left'
+    valign: 'top'
+    height: self.texture_size[1]
+    max_lines: 1

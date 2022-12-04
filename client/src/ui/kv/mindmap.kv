@@ -1,0 +1,29 @@
+#:kivy 2.1.0
+
+<MainScreen>:
+    topBar: topBar.__self__
+    leftSideBar: leftSideBar.__self__
+    rightSideBar: rightSideBar.__self__
+    bottomBar: bottomBar.__self__
+    drawRegion: drawRegion.__self__
+
+    GridLayout:
+        rows: 3
+        TopBar:
+            id: topBar
+            mainScreen: root
+        GridLayout:
+            cols: 3
+            LeftSideBar:
+                id: leftSideBar
+            DrawRegion:
+                id: drawRegion
+                mainScreen: root
+            RightSideBar:
+                id: rightSideBar
+        BottomBar:
+            id: bottomBar
+            mainScreen: root
+
+<WidgetBox@AnchorLayout>:
+    size_hint:(None, None)  

@@ -1,0 +1,243 @@
+#:kivy 2.1.0
+
+<SaveReminderPopup>:
+    size_hint: (None, None)
+    size: (400, 140)
+    auto_dismiss: False
+    title: self.actionTypeString
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Do you want save your changes?"
+            text_size: self.size
+            valign: "middle"
+            padding_x: 5
+        BoxLayout:
+            PopupButton:
+                text: "Yes"
+                button_color: .15, .45, .15, 1
+                default_color: .15, .45, .15, 1
+                highlight_color: .2, .6, .2, 1
+                on_press: root.save_the_changes()
+            PopupButton:
+                text: "No"
+                button_color: .45, .15, .15, 1
+                default_color: .45, .15, .15, 1
+                highlight_color: .6, .2, .2, 1
+                on_press: root.do_not_save_the_changes()
+            PopupButton:
+                text: "Cancel"
+                on_press: root.dismiss()
+
+<SaveLoadPopup>:
+    planeList: planeList.__self__
+    nameField: nameField.__self__
+
+    size_hint: (None, None)
+    size: (175, 400)
+    auto_dismiss: False
+    title: self.actionTypeString
+
+    server_option: "server default"
+    local_option: "local default"
+    submit_option: "NOT"
+    BoxLayout:
+        orientation: "horizontal"
+        BoxLayout:
+            size_hint: (None, 1)
+            width: 150
+            spacing: 2
+            padding: [0, 2, 0, 0]
+            orientation: "vertical"
+            PopupButton:
+                text: root.server_option
+                size_hint: (None, None)
+                size: (150, 35)
+                on_press: root.show_saves_from_server()
+            PopupButton:
+                text: root.local_option
+                size_hint: (None, None)
+                size: (150, 35)
+                on_press: print("not implemented")
+            Widget:
+                size_hint: (None, 1)
+                width: 150
+            PopupButton:
+                text: "Cancel"
+                size_hint: (None, None)
+                size: (150, 35)
+                on_press: root.dismiss()
+        Widget:
+            size_hint: (None, None)
+            size:(6, 336) if root.is_wide else (0, 0)
+            pos_hint: {"x": 0, "center_y": 0.5}
+            opacity: 1 if root.is_wide else 0
+            canvas:
+                Color:
+                    rgb: .5, .5, .5
+                Line:
+                    width: 1
+                    points: self.x + self.width/2, self.y, self.x + self.width/2, self.y + self.height
+        BoxLayout:
+            orientation: "vertical"
+            ScrollView:
+                BoxLayout:
+                    orientation: "vertical"
+                    id: planeList
+                    spacing: 2
+                    padding: [0, 2, 0, 0]
+                    size_hint_y: None
+                    height: self.minimum_height
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint: (1, None)
+                height: 34 
+                spacing: 2
+                padding: [0, 2, 0, 0]
+                TextInput:
+                    id: nameField
+                    size_hint: (1, None)
+                    multiline: False
+                    height: 30 if root.is_wide else 0
+                    opacity: 1 if root.is_wide else 0
+                    on_text_validate: root.handle_submit()
+                PopupButton:
+                    text: root.submit_option
+                    button_color: .15, .45, .15, 1
+                    default_color: .15, .45, .15, 1
+                    highlight_color: .2, .6, .2, 1
+                    size_hint: (None, None)
+                    size: (90, 30) if root.is_wide else (0, 0)
+                    opacity: 1 if root.is_wide else 0
+                    on_press: root.handle_submit()
+<SavePlanePopup>:
+    server_option: "On the server"
+    local_option: "On this machine..."
+    submit_option: "SAVE"
+
+<LoadPlanePopup>:
+    server_option: "From server"
+    local_option: "From this machine..."
+    submit_option: "LOAD"
+
+<ListItem>:
+    size_hint: (1, None)
+    height: 60
+    PopupButton:
+        on_press: root.set_text_to_field()
+    Label:
+        text: "01.01.2022"
+        color: .3, .3, .3
+        size_hint: (.75, .5)
+        # pos_hint: {"x": 0, "y": .3}
+        pos: (0, 16)
+        text_size: self.size
+        valign: "middle"
+        padding_x: 5
+    Label:
+        text: root.planeName
+        size_hint: (.75, .5)
+        text_size: self.size
+        valign: "middle"
+        padding_x: 5
+    WidgetBox:
+        pos_hint: {"right": 1, "y": 0}
+        size: (60, 60)
+        PopupButton:
+            size_hint: (None, None)
+            text: "del"
+            color: 1, 0, 0
+            size: (42, 42)
+            button_color: .25, .25, .25, 1
+            default_color: .25, .25, .25, 1
+            highlight_color: .5, .5, .5, 1
+            on_press: root.delete_plane()
+            
+<DeleteConfirmationPopup>:
+    size_hint: (None, None)
+    size: (350, 140)
+    title: "Delete plane"
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Do you want to delete '{}' plane?".format(root.planeName)
+            text_size: self.size
+            valign: "middle"
+            padding_x: 5
+        BoxLayout:
+            WidgetBox:
+                size_hint: (.5, 1)
+                PopupButton:
+                    text: "Yes"
+                    button_color: .45, .15, .15, 1
+                    default_color: .1, .1, .1, 1
+                    highlight_color: .6, .2, .2, 1
+                    on_press: root.confirm_delete()
+                    size_hint: (.9, 1)
+            WidgetBox:
+                size_hint: (.5, 1)
+                PopupButton:
+                    text: "No"
+                    on_press: root.dismiss()
+                    size_hint: (.9, 1)
+
+<OverwriteConfirmationPopup>:
+    size_hint: (None, None)
+    size: (450, 140)
+    title: "Overwrite plane"
+    auto_dismiss: False
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Do you want to overwrite '{}' save?".format(root.planeName)
+            text_size: self.size
+            valign: "middle"
+            padding_x: 5
+        BoxLayout:
+            WidgetBox:
+                size_hint: (.5, 1)
+                PopupButton:
+                    text: "Yes"
+                    on_press: root.confirm_overwrite()
+                    size_hint: (.9, 1)
+            WidgetBox:
+                size_hint: (.5, 1)
+                PopupButton:
+                    text: "No"
+                    on_press: root.dismiss()
+                    size_hint: (.9, 1)
+
+<ErrorPopup>:
+    size_hint: (None, None)
+    size: (280, 200)
+    title: "Information"
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: root.message
+            text_size: self.size
+            valign: "middle"
+            padding_x: 5
+        WidgetBox:
+            size_hint: (1, .35)
+            PopupButton:
+                size_hint: (.5, 1)
+                text: "Ok"
+                on_press: root.dismiss()
+
+<PopupButton>:
+    background_color: 1, 1, 1, 0
+    color: 1, 1, 1, 1
+    button_color: .45, .45, .45, 1
+    default_color: .45, .45, .45, 1
+    highlight_color: .6, .6, .6, 1
+    canvas.before:
+        Color:
+            rgba: self.button_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+
+
+    

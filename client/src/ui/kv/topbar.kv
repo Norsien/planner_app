@@ -1,0 +1,52 @@
+#:kivy 2.1.0
+
+<TopBar>:
+    size_hint: (1, None)
+    height: 18
+
+    newPlaneButton: newPlaneButton.__self__
+    savePlaneButton: savePlaneButton.__self__
+    loadPlaneButton: loadPlaneButton.__self__
+
+    canvas:
+        Color:
+            rgb: .9, .9, .9
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    TopPanelButton:
+        id: newPlaneButton
+        topBar: root
+        text: "New"
+        on_press: self.topBar.newPlaneButton_pressed()
+    TopPanelButton:
+        id: loadPlaneButton
+        topBar: root
+        text: "Load"
+        on_press: self.topBar.loadPlaneButton_pressed()
+    TopPanelButton:
+        id: savePlaneButton
+        topBar: root
+        text: "Save"
+        on_press: self.topBar.savePlaneButton_pressed()
+    TopPanelButton:
+        id: nodeListButton
+        topBar: root
+        text: "Show node list"
+        on_press: self.topBar.nodeListButton_pressed()
+    
+<TopPanelButton>:
+    size_hint: (None, None)
+    height: 18
+    padding: [6, 0]
+    size: self.texture_size
+    pos_hint: {"x": 0, "center_y": 0.5}
+    background_color: 1, 1, 1, 0
+    color: 1, 1, 1, 1
+    button_color: 0.45, 0.45, 0.45, 1
+    canvas.before:
+        Color:
+            rgba: self.button_color
+        Rectangle:
+            size: self.size
+            pos: self.pos

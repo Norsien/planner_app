@@ -1,39 +1,41 @@
-Podświetlanie kursora (opcja dolnego paska)
+# UI
+    Ograniczenie częstotliwośći aktualizacji planszy (może)
+    Ograniczenie planszy do nie wchodzienia z obszaru
+    Ograniczenie hitboxu planszy
 
-Ograniczenie częstotliwośći aktualizacji planszy
-Ograniczenie planszy do nie wchodzienia z obszaru
+# Node
+    - ustawianie początkowych parametrów w inny sposób
+    - kolejność sprawdzania, walidacjia i zapisywanie
+    * sprawdzenie czy elementy są poprawnie usuwane
 
-Dodawanie elementów
-Ustawianie początkowych parametrów
-Przyciąganie do siatki
-Sprawdzanie kolizji z innymi elementami
+    - Dodanie ikonki elementu
+    - Rozmiar (wybór 3), kształt, kolor
+    
+    - Przyciąganie do siatki
+    - Sprawdzanie kolizji z innymi elementami
+    - położenie tooltipa
+    * Dodawanie połączeń
 
-Edytowanie elementów
-Powiązanie edycji ze stanem na planszy
+# NodeList
+    * wyśrodkowanie na elemencie
+    - wyszukiwanie elementów po opisie
+    - kategoryzowanie elementów lub dodanie tagów
 
-Dodawanie połączeń (?)
+# Database
+    * Ustaw Domyślne Wczytywanie
+    * Try Catch
 
-Wyświetlenie listy elementów
+# SaveLoad
+    - Sprawdzanie czy zaszły zmiany
+    * Sprawdzanie dostępu do danych
+    - Pojawianie się powiadomień
 
-Serializacja elementów do json
-Zapisywanie planszy
-Wczytywanie planszy
-
-Dodanie ikonki elementu
-Wyświetlanie opisu elementu po najechaniu kursorem
-
-Wyszukiwanie elementów po nazwie lub opisie
+# Bugs
+    Hoverable button
+    Usuwanie najechania
+    Usuwanie odniesień, żeby usunąć obiekt
 
 -----------
-
-Kategoryzowanie elementów lub dodanie tagów
-
 Przesówanie elementów kursorem
-
 Obsługa klawiszy modyfikatorów
-
 -----------
-
-
-
-
