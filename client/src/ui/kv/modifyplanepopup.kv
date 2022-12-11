@@ -1,0 +1,153 @@
+#:kivy 2.1.0
+
+<ModifyPlanePopup>:
+    nameField: nameField.__self__
+    widthField: widthField.__self__
+    heightField: heightField.__self__
+
+    size_hint: (None, None)
+    size: (480, 200)
+    auto_dismiss: False
+
+    submit_option: "Unknown submit"
+    BoxLayout:
+        orientation: "vertical"
+        padding: 6
+        spacing: 2
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint: (1, None)
+            height: 32
+            spacing: 2
+            padding: 4
+            Label:
+                text: "Name:"
+                size_hint: (0.15, None)
+                text_size: self.size
+                halign: 'right'
+                valign: 'middle'
+                height: self.parent.height
+            TextInput:
+                id: nameField
+                size_hint: (0.85, None)
+                height: self.parent.height
+                halign: "left"
+                multiline: False
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint: (1, None)
+            height: 32
+            spacing: 2
+            padding: 4
+            Label:
+                text: "Width:"
+                size_hint: (0.15, None)
+                text_size: self.size
+                halign: 'right'
+                valign: 'middle'
+                height: self.parent.height
+            TextInput:
+                id: widthField
+                size_hint: (0.35, None)
+                height: self.parent.height
+                halign: "left"
+                multiline: False
+                input_filter: 'int'
+                text: "1300"
+            Label:
+                text: "Height:"
+                size_hint: (0.15, None)
+                text_size: self.size
+                halign: 'right'
+                valign: 'middle'
+                height: self.parent.height
+            TextInput:
+                id: heightField
+                size_hint: (0.35, None)
+                height: self.parent.height
+                halign: "left"
+                multiline: False
+                input_filter: 'int'
+                text: "900"
+        Widget:
+        BoxLayout:
+            WidgetBox:
+                size_hint: (.7, 1)
+                PopupButton:
+                    text: root.submit_option
+                    button_color: .15, .45, .15, 1
+                    default_color: .15, .45, .15, 1
+                    highlight_color: .2, .6, .2, 1
+                    on_press: root.handle_submit()
+                    size_hint: (.7, 1)
+            WidgetBox:
+                size_hint: (.3, 1)
+                PopupButton:
+                    text: "Cancel"
+                    on_press: root.dismiss()
+                    size_hint: (.5, 1)
+        
+
+<AddNewPlanePopup>:
+    title: "New plane properties"
+    submit_option: "Create"
+
+<EditPlanePopup>:
+    title: "Edit '" + self.itemName + "' properties"
+    submit_option: "Save changes"
+
+<DeletePlanePopup>:
+    size_hint: (None, None)
+    size: (350, 140)
+    title: "Delete plane"
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Do you want to delete '{}' node?".format(root.itemName)
+            text_size: self.size
+            valign: "middle"
+            padding_x: 5
+        BoxLayout:
+            WidgetBox:
+                size_hint: (.5, 1)
+                PopupButton:
+                    text: "Yes"
+                    button_color: .45, .15, .15, 1
+                    default_color: .45, .15, .15, 1
+                    highlight_color: .6, .2, .2, 1
+                    on_press: root.confirm_delete()
+                    size_hint: (.9, 1)
+            WidgetBox:
+                size_hint: (.5, 1)
+                PopupButton:
+                    text: "No"
+                    on_press: root.dismiss()
+                    size_hint: (.9, 1)
+
+<DeleteNodePopup>:
+    size_hint: (None, None)
+    size: (350, 140)
+    title: "Delete node"
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            text: "Do you want to delete '{}' node?".format(root.itemName)
+            text_size: self.size
+            valign: "middle"
+            padding_x: 5
+        BoxLayout:
+            WidgetBox:
+                size_hint: (.5, 1)
+                PopupButton:
+                    text: "Yes"
+                    button_color: .45, .15, .15, 1
+                    default_color: .45, .15, .15, 1
+                    highlight_color: .6, .2, .2, 1
+                    on_press: root.confirm_delete()
+                    size_hint: (.9, 1)
+            WidgetBox:
+                size_hint: (.5, 1)
+                PopupButton:
+                    text: "No"
+                    on_press: root.dismiss()
+                    size_hint: (.9, 1)

@@ -2,25 +2,34 @@
 
 <MainScreen>:
     topBar: topBar.__self__
-    leftSideBar: leftSideBar.__self__
+    nodeListSideBar: nodeListSideBar.__self__
+    planeListSideBar: planeListSideBar.__self__
     rightSideBar: rightSideBar.__self__
     bottomBar: bottomBar.__self__
     drawRegion: drawRegion.__self__
 
-    GridLayout:
-        rows: 3
+    BoxLayout:
+        orientation: "vertical"
         TopBar:
             id: topBar
             mainScreen: root
-        GridLayout:
-            cols: 3
-            LeftSideBar:
-                id: leftSideBar
+        BoxLayout:
+            BoxLayout:
+                size_hint: (None, 1)
+                width: self.minimum_width
+                orientation: "vertical"
+                PlaneListSideBar:
+                    id: planeListSideBar
+                    mainScreen: root
+                NodeListSideBar:
+                    id: nodeListSideBar
+                    mainScreen: root
             DrawRegion:
                 id: drawRegion
                 mainScreen: root
             RightSideBar:
                 id: rightSideBar
+                mainScreen: root
         BottomBar:
             id: bottomBar
             mainScreen: root

@@ -32,7 +32,12 @@
     TopPanelButton:
         id: nodeListButton
         topBar: root
-        text: "Show node list"
+        text: "Plane list"
+        on_press: self.topBar.planeListButton_pressed()
+    TopPanelButton:
+        id: nodeListButton
+        topBar: root
+        text: "Node list"
         on_press: self.topBar.nodeListButton_pressed()
     
 <TopPanelButton>:

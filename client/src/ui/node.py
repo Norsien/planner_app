@@ -53,7 +53,6 @@ class Node(HoverableToggleButton):
         Window.remove_widget(self.tooltip)
 
     def display_tooltip(self, *args) -> None:
-        print("done")
         Window.add_widget(self.tooltip)
 
     def switch_state(self) -> None: 
@@ -89,3 +88,13 @@ class Node(HoverableToggleButton):
         self.reset_button()
         self.drawingPlane.remove_widget(self)
         self.drawingPlane.nodeList.remove(self)
+
+    def to_dict(self) -> dict[str, any]:
+        node_dictionary: dict[str, any] = {
+            "name": self.name,
+            "description": self.shortDescription,
+            "posX": self.pos[0],
+            "posY": self.pos[1]
+        }
+        return node_dictionary
+
