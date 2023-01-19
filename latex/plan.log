@@ -1,14 +1,14 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8) (preloaded format=pdflatex 2022.8.24)  25 AUG 2022 10:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.10) (preloaded format=pdflatex 2022.12.20)  21 DEC 2022 21:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**d:/Studia/ind/plan.tex
-(d:/Studia/ind/plan.tex
+**d:/Studia/ind/latex/plan.tex
+(d:/Studia/ind/latex/plan.tex
 LaTeX2e <2022-06-01> patch level 5
-L3 programming layer <2022-08-05> (D:\Environents\MiKTeX\tex/latex/base\article.cls
+L3 programming layer <2022-09-28> (D:\Environments\MiKTeX\tex/latex/base\article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
-(D:\Environents\MiKTeX\tex/latex/base\size11.clo
+(D:\Environments\MiKTeX\tex/latex/base\size11.clo
 File: size11.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count185
@@ -22,32 +22,34 @@ File: size11.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen138
-) (D:\Environents\MiKTeX\tex/latex/polski\polski.sty
+) (D:\Environments\MiKTeX\tex/latex/polski\polski.sty
 Package: polski 2021/08/25 v1.3.6 Polish language package
-) (D:\Environents\MiKTeX\tex/latex/base\inputenc.sty
+) (D:\Environments\MiKTeX\tex/latex/base\inputenc.sty
 Package: inputenc 2021/02/14 v1.3d Input encoding file
 \inpenc@prehook=\toks16
 \inpenc@posthook=\toks17
-) (D:\Environents\MiKTeX\tex/latex/graphics\graphicx.sty
+) (D:\Environments\MiKTeX\tex/latex/graphics\graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
- (D:\Environents\MiKTeX\tex/latex/graphics\keyval.sty
+ (D:\Environments\MiKTeX\tex/latex/graphics\keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks18
-) (D:\Environents\MiKTeX\tex/latex/graphics\graphics.sty
+) (D:\Environments\MiKTeX\tex/latex/graphics\graphics.sty
 Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
- (D:\Environents\MiKTeX\tex/latex/graphics\trig.sty
+ (D:\Environments\MiKTeX\tex/latex/graphics\trig.sty
 Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
-) (D:\Environents\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
+) (D:\Environments\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
- (D:\Environents\MiKTeX\tex/latex/graphics-def\pdftex.def
-File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+ (D:\Environments\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+\stockwidth=\dimen139
+\stockheight=\dimen140
 ))
-\Gin@req@height=\dimen139
-\Gin@req@width=\dimen140
-) (D:\Environents\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
-File: l3backend-pdftex.def 2022-08-05 L3 backend support: PDF output (pdfTeX)
+\Gin@req@height=\dimen141
+\Gin@req@width=\dimen142
+) (D:\Environments\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
+File: l3backend-pdftex.def 2022-09-28 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count193
 \l__pdf_internal_box=\box51
 ) (plan.aux)
@@ -67,23 +69,23 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
- (D:\Environents\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+ (D:\Environments\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count194
-\scratchdimen=\dimen141
+\scratchdimen=\dimen143
 \scratchbox=\box52
 \nofMPsegments=\count195
 \nofMParguments=\count196
 \everyMPshowfont=\toks19
 \MPscratchCnt=\count197
-\MPscratchDim=\dimen142
+\MPscratchDim=\dimen144
 \MPnumerator=\count198
 \makeMPintoPDFobject=\count199
 \everyMPtoPDFconversion=\toks20
-) (D:\Environents\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
+) (D:\Environments\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
- (D:\Environents\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+ (D:\Environments\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -92,25 +94,49 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 22.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 22.
- (plan.toc)
-\tf@toc=\write3
-\openout3 = `plan.toc'.
-
  [1
 
-{C:/Users/Smolams/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2] (plan.aux) ) 
+{C:/Users/Smolams/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+<img/main_screen.png, id=11, 964.35281pt x 623.32875pt>
+File: img/main_screen.png Graphic file (type png)
+<use img/main_screen.png>
+Package pdftex.def Info: img/main_screen.png  used on input line 53.
+(pdftex.def)             Requested size: 455.24408pt x 294.25807pt.
+ [2 <./img/main_screen.png>]
+<img/createpopup.png, id=17, 590.95781pt x 187.45032pt>
+File: img/createpopup.png Graphic file (type png)
+<use img/createpopup.png>
+Package pdftex.def Info: img/createpopup.png  used on input line 70.
+(pdftex.def)             Requested size: 341.43306pt x 108.30365pt.
+<img/screen_with_things.png, id=18, 964.35281pt x 624.83438pt>
+File: img/screen_with_things.png Graphic file (type png)
+<use img/screen_with_things.png>
+Package pdftex.def Info: img/screen_with_things.png  used on input line 76.
+(pdftex.def)             Requested size: 455.24408pt x 294.96884pt.
+<img/unsuccessfulsave.png, id=19, 606.01407pt x 362.10281pt>
+File: img/unsuccessfulsave.png Graphic file (type png)
+<use img/unsuccessfulsave.png>
+Package pdftex.def Info: img/unsuccessfulsave.png  used on input line 84.
+(pdftex.def)             Requested size: 369.88582pt x 221.01498pt.
+ [3 <./img/createpopup.png> <./img/screen_with_things.png>]
+<img/load.png, id=23, 657.95813pt x 350.81062pt>
+File: img/load.png Graphic file (type png)
+<use img/load.png>
+Package pdftex.def Info: img/load.png  used on input line 90.
+(pdftex.def)             Requested size: 369.88582pt x 197.21806pt.
+ [4 <./img/unsuccessfulsave.png> <./img/load.png>] (plan.aux) ) 
 Here is how much of TeX's memory you used:
- 1454 strings out of 477992
- 23456 string characters out of 2838247
- 322670 words of memory out of 3000000
- 20252 multiletter control sequences out of 15000+600000
- 476922 words of font info for 44 fonts, out of 8000000 for 9000
+ 1488 strings out of 475385
+ 24377 string characters out of 2787218
+ 369501 words of memory out of 3000000
+ 22885 multiletter control sequences out of 15000+600000
+ 477256 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,6n,62p,195b,192s stack positions out of 10000i,1000n,20000p,200000b,80000s
- <C:\Users\Smolams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\Smolams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\Smolams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Smolams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Smolams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1728.pk>
-Output written on plan.pdf (2 pages, 40217 bytes).
+ 55i,6n,62p,606b,192s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ <C:\Users\Smolams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Smolams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1095.pk> <C:\Users\Smolams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\Smolams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Smolams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Smolams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1728.pk>
+Output written on plan.pdf (4 pages, 194534 bytes).
 PDF statistics:
- 133 PDF objects out of 1000 (max. 8388607)
+ 216 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

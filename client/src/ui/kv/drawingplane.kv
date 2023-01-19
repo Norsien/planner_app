@@ -15,11 +15,13 @@
 
     Image:
         id: backgroundImage
+        allow_stretch: True
+        keep_ratio: False
         size_hint: (None, None)
         pos_hint: {"center_x": .5, "center_y": .5}
 
-        size: self.texture_size
-        source: "tmp_graphics/pic1.jpg"
+        size: root.size
+        source: "tmp_graphics/gradient.png"
         color: [1, 1, 1, 0.4]
 
         VisualWidgetBorder:
