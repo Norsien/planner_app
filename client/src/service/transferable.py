@@ -1,7 +1,21 @@
+from ui.planepackage import PlanePackage
 from ui.drawingplane import DrawingPlane
 from ui.node import Node
 
-def to_plane(plane_params):
+def to_planePackage(planePackage_params):
+    planePackage: PlanePackage = PlanePackage()
+
+    planePackage.name = planePackage_params["name"]
+    planePackage.planeList = []
+    planes = planePackage_params["planes"]["edges"]
+    for pl in planes:
+        plane: DrawingPlane = to_plane(pl["node"])
+        planePackage.add_plane(plane)
+        if plane.name == planePackage_params["topPlane"]:
+            planePackage.set_topPlane(plane)
+    return planePackage
+
+def to_plane(plane_params) -> DrawingPlane:
     plane = DrawingPlane()
 
     plane.width = plane_params["width"]

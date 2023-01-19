@@ -1,12 +1,13 @@
 #:kivy 2.1.0
 
-<LeftSideBar>:
+<NodeListSideBar>:
     nodeList: nodeList.__self__
     filterField: filterField.__self__
 
     is_opened: True
     spacing: 4
     padding: 6
+    background_color: .2, .25, .15, 1
     BoxLayout:
         size_hint: (1, None)
         height: 40
@@ -59,6 +60,83 @@
                 size_hint_y: None
                 height: self.minimum_height
 
+<PlaneListSideBar>:
+    planeList: planeList.__self__
+    filterField: filterField.__self__
+
+    is_opened: True
+    spacing: 4
+    padding: 6
+    background_color: .3, .45, .6, 1
+    BoxLayout:
+        size_hint: (1, None)
+        height: 40
+        Label:
+            text: "Plane list"
+            size_hint: (1, None)
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+            padding_x: 6
+            font_size: '20sp'
+            height: self.parent.height
+        WidgetBox:
+            size: (90, 40)
+            Button:
+                size_hint: (None, None)
+                size: (86, 36) if root.is_opened else (0, 0)
+                text: "Add plane"
+                on_press: root.handle_addNewPlane()
+                id: addPlaneButton
+                opacity: 1 if root.is_opened else 0
+                background_color: 1, 1, 1, 0
+                color: 1, 1, 1, 1
+                canvas.before:
+                    Color:
+                        rgba: .1, .6, .25, 1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        WidgetBox:
+            size: (40, 40)
+            Button:
+                size_hint: (None, None)
+                size: (36, 36) if root.is_opened else (0, 0)
+                text: "x"
+                on_press: root.close_sideBar()
+                opacity: 1 if root.is_opened else 0
+    BoxLayout:
+        size_hint: (1, 1)
+        orientation: "vertical"
+        spacing: 4
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint: (1, None)
+            height: 34 
+            spacing: 2
+            padding: [0, 2, 0, 0]
+            TextInput:
+                id: filterField
+                size_hint: (1, None)
+                multiline: False
+                height: 30 if root.is_opened else 0
+                opacity: 1 if root.is_opened else 0
+                on_text_validate: root.handle_filter()
+            Button:
+                text: "Filter"
+                size_hint: (None, None)
+                size: (50, 30) if root.is_opened else (0, 0)
+                opacity: 1 if root.is_opened else 0
+                on_press: root.handle_filter()
+        ScrollView:
+            BoxLayout:
+                orientation: "vertical"
+                id: planeList
+                spacing: 2
+                padding: [0, 2, 0, 0]
+                size_hint_y: None
+                height: self.minimum_height
+
 <RightSideBar>:
     nameField: nameField.__self__
     descriptionField: descriptionField.__self__
@@ -84,8 +162,6 @@
             id: nameField
             sideBar: root
             property: "name"
-            focus_previous: None
-            focus_next: descriptionField
     SidebarRow:
         height: 160
         PropertyLabel:
@@ -96,8 +172,6 @@
             multiline: True
             sideBar: root
             property: "shortDescription"
-            focus_previous: nameField
-            focus_next: None
     SidebarRow:
         height: 40
         orientation: "lr-tb"
@@ -111,7 +185,8 @@
     Widget:
 
 <SideBar>:
-    size_hint: (None, 1)
+    size_hint: (None, 1) if self.is_opened else (None, None)
+    height: 100 if self.is_opened else 0
     width: 270 if self.is_opened else 0
     opacity: 1 if self.is_opened else 0
 
@@ -119,7 +194,73 @@
 
     canvas.before:
         Color:
-            rgb: .4, .4, .5
+            rgba: self.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<PlaneItem>:
+    planeItemButton: planeItemButton.__self__
+
+    size_hint: (1, None)
+    height: 45 
+    PlaneItemButton:
+        id: planeItemButton
+        mainScreen: root.mainScreen
+        plane: root.plane
+    Label:
+        text: "Node count: " + str(root.nodeCount)
+        color: .5, .7, .9
+        size_hint: (.75, .5)
+        pos: (0, 16)
+        text_size: self.size
+        valign: "middle"
+        padding_x: 5
+    Label:
+        text: root.planeName
+        size_hint: (.75, .5)
+        text_size: self.size
+        valign: "middle"
+        padding_x: 5
+    StackLayout:
+        size_hint: (None, None)
+        pos_hint: {"right": 1, "y": 0}
+        size: (90, 45)
+        WidgetBox:
+            size: (45, 45)
+            PopupButton:
+                size_hint: (None, None)
+                text: "edit"
+                color: 0, 1, 0
+                size: (36, 36)
+                button_color: .25, .25, .25, 1
+                default_color: .25, .25, .25, 1
+                highlight_color: .5, .5, .5, 1
+                on_press: root.handle_edit()
+        WidgetBox:
+            size: (40, 45)
+            PopupButton:
+                size_hint: (None, None)
+                text: "del"
+                color: (1, 0, 0) if (not root.isCurrentPlane) else (.5, .5, .5)
+                size: (36, 36)
+                button_color: .25, .25, .25, 1
+                default_color: .25, .25, .25, 1
+                highlight_color: .5, .5, .5, 1
+                on_press: root.handle_delete() if (not root.isCurrentPlane) else None
+
+<PlaneItemButton>:
+    size_hint: (1, 1)
+    background_color: 1, 1, 1, 0
+    color: 1, 1, 1, 1
+    button_color: .2, .22, .28, 1
+    default_color: .2, .22, .28, 1
+    highlight_color: .3, .33, .4, 1
+    on_press: self.select_plane()
+    
+    canvas.before:
+        Color:
+            rgba: self.button_color
         Rectangle:
             size: self.size
             pos: self.pos
@@ -128,7 +269,6 @@
     size_hint: (1, None)
     height: 20
     on_press: self.select_node()
-    # nodeItemButton: nodeItemButton.__self__
     background_color: 1, 1, 1, 0
     color: 1, 1, 1, 1
     button_color: .35, .5, .35, 1

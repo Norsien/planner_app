@@ -7,16 +7,16 @@
     orientation: "vertical"
     canvas:
         Color:
-            rgba: .25, .25, .45, .8
+            rgba: .25, .25, .45, .9
         Rectangle:
             size: self.size
             pos: self.pos
-    SidebarRow:
+    TooltipRow:
         TooltipLabel:
             text: "Name:"
         TooltipValue:
             text: root.node.name
-    SidebarRow:
+    TooltipRow:
         descValue: descValue
         height: self.descValue.height + 2*self.padding[0]
         TooltipLabel:
@@ -26,19 +26,19 @@
             max_lines: 12
             text: root.node.shortDescription
 
-<SidebarRow@StackLayout>:
+<TooltipRow@StackLayout>:
     spacing: 4
     padding: 6
     orientation: "lr-tb"
     size_hint: (1, None)
-    height: 24
+    height: 20
 
 <TooltipLabel@Label>:
     size_hint: (0.2, None)
     text_size: self.size
     halign: 'right'
     valign: 'top'
-    height: 24
+    height: 20
 
 <TooltipValue@Label>:
     size_hint: (0.8, None)

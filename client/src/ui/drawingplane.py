@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ui.drawregion import DrawRegion
+    from ui.sidebar import PlaneItem
 
 from ui.node import Node
 from ui.visualwidgetborder import VisualWidgetBorder
@@ -26,21 +27,27 @@ class DrawingPlane(ScatterLayout):
     initialRecenterDone: bool = BooleanProperty(False)
     previousParentWidth: int = NumericProperty()
     previousParentHeight: int = NumericProperty()
+    previousParentPosX: int = NumericProperty()
+    previousParentPosY: int = NumericProperty()
     currentNodeMode: str = OptionProperty("None", options=["None", "Add", "Connect", "Delete"])
     zoomOptions: list[float] = ListProperty((0.5, 0.7, 0.85, 1, 1.2, 1.4, 1.7, 2.0))
     currentZoomLevel: int = NumericProperty(3)
     borderVisible: bool = BooleanProperty(False)
     currentCursorPosition: list[int] = ListProperty(None)
-    currentSelectedNode: Node = ObjectProperty(None, allownone = True)
 
+    isCurrentPlane: bool = BooleanProperty(False)
+    myButtonOnPlaneList: PlaneItem = ObjectProperty()
+    currentSelectedNode: Node = ObjectProperty(None, allownone = True)
     backgroundImage: Image = ObjectProperty(None)
     name: str = StringProperty("")
     nodeList: list[Node] = ListProperty([])
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        Window.bind(mouse_pos=self.get_coordinates)
         self.bind(currentSelectedNode=self.when_node_selected_behaviour)
+
+    def set_myButtonOnPlaneList(self, button: PlaneItem) -> None:
+        self.myButtonOnPlaneList = button
 
     # # should be limited to once every 1/30 sec
     def recenter_plane(self) -> None:
@@ -50,12 +57,20 @@ class DrawingPlane(ScatterLayout):
             self.pos: tuple[int, int] = (-pos_x, -pos_y)
             self.previousParentWidth = self.drawRegion.width
             self.previousParentHeight = self.drawRegion.height
+            self.previousParentPosX = self.drawRegion.pos[0]
+            self.previousParentPosY = self.drawRegion.pos[1]
+
             self.initialRecenterDone = True
         else:
-            self.apply_transform(Matrix().translate((self.drawRegion.width - self.previousParentWidth)/2, \
-                                                    (self.drawRegion.height - self.previousParentHeight)/2, 0))
+
+            self.apply_transform(Matrix().translate((self.drawRegion.width - self.previousParentWidth +\
+                                                     2*(self.drawRegion.pos[0] - self.previousParentPosX))/2, \
+                                                    (self.drawRegion.height - self.previousParentHeight +\
+                                                     2*(self.drawRegion.pos[1] - self.previousParentPosY))/2, 0))
             self.previousParentWidth = self.drawRegion.width
             self.previousParentHeight = self.drawRegion.height
+            self.previousParentPosX = self.drawRegion.pos[0]
+            self.previousParentPosY = self.drawRegion.pos[1]
     
     def on_touch_down(self, touch, **kwargs) -> None:
         if self.collide_point(*touch.pos):
@@ -124,21 +139,14 @@ class DrawingPlane(ScatterLayout):
             self.add_widget(node)
 
     def to_dict(self) -> dict[str, any]:
-        elements_list: list[dict[str, any]] = []
+        node_list: list[dict[str, any]] = []
         for node in self.nodeList:
-            element_dictionary: dict[str, any] = {
-                "name": node.name,
-                "description": node.shortDescription,
-                "posX": node.pos[0],
-                "posY": node.pos[1]
-            }
-            elements_list.append(element_dictionary)
+            node_list.append(node.to_dict())
 
         plane_dictionary: dict[str, any] = {
             "name": self.name,
             "height": self.height,
             "width": self.width,
-            "elements": elements_list
+            "elements": node_list
         }
-
         return plane_dictionary

@@ -8,7 +8,6 @@
 
     createNodeButton: createNodeButton.__self__
     connectNodesButton: connectNodesButton.__self__
-    deleteNodeButton: deleteNodeButton.__self__
     positionDisplay: positionDisplay.__self__
     toggleBorderButton: toggleBorderButton.__self__
 
@@ -37,14 +36,6 @@
             text: "S"
             buttonOption: "Connect"
 
-    WidgetBox:
-        size: (34, 34)
-        NodeOptionsButton:
-            id: deleteNodeButton
-            bottomBar: root
-            text: "-"
-            buttonOption: "Delete"
-
     Widget:
         size_hint: (None, None)
         size:(6, 32)
@@ -68,7 +59,6 @@
             id: toggleCursorHighlight
             bottomBar: root
             text: "C"
-            # on_press: self.bottomBar.manage_border_button()
     Widget:
     WidgetBox:
         anchor_x: "right"

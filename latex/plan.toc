@@ -1,3 +1,10 @@
-\contentsline {section}{\numberline {1}Cel i zakres dokumentu}{2}{}%
-\contentsline {section}{\numberline {2}Tematyka projektu}{2}{}%
-\contentsline {section}{\numberline {3}Oczekiwany resultat}{2}{}%
+\contentsline {section}{\numberline {1}Cel dokumentu}{1}{}%
+\contentsline {section}{\numberline {2}Cel projektu}{1}{}%
+\contentsline {section}{\numberline {3}Użyte narzędzia}{1}{}%
+\contentsline {section}{\numberline {4}Rezultat projektu}{2}{}%
+\contentsline {subsection}{\numberline {4.1}Baza danych}{2}{}%
+\contentsline {subsection}{\numberline {4.2}Serwer}{2}{}%
+\contentsline {subsection}{\numberline {4.3}Aplikacja klient}{2}{}%
+\contentsline {subsection}{\numberline {4.4}Edycja plansz i elementów}{3}{}%
+\contentsline {subsection}{\numberline {4.5}Zapisywanie i wczytywanie}{4}{}%
+\contentsline {section}{\numberline {5}Dalsze możliwości rozwoju}{4}{}%

@@ -20,19 +20,11 @@ class BottomBar(BoxLayout):
 
     createNodeButton: NodeOptionsButton = ObjectProperty(None)
     connectNodesButton: NodeOptionsButton = ObjectProperty(None)
-    deleteNodeButton: NodeOptionsButton = ObjectProperty(None)
     toggleBorderButton:BottomPanelButton = ObjectProperty(None)
     positionDisplay: TextInput = ObjectProperty(None)
 
     lastPosition: str = StringProperty("")
     currentNodeOptionButton: NodeOptionsButton = ObjectProperty(None, allownone = True)
-
-    # # touch blocker
-    # def on_touch_down(self, touch):
-    #     if self.collide_point(*touch.pos):
-    #         return True
-    #     else:
-    #         return super().on_touch_down(touch)
 
     def manage_nodeOptions_buttons(self) -> None:
         if self.currentNodeOptionButton == None:

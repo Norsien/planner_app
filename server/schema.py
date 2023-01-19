@@ -1,32 +1,35 @@
 import graphene
 from graphene.relay import Node
-from graphene_mongo import MongoengineObjectType, MongoengineConnectionField
+from graphene_mongo import MongoengineObjectType
 from mongoengine import DoesNotExist
 
-from models import (Plane as PlaneModel, Element as ElementModel)
-
-class PlaneType(MongoengineObjectType):
-    class Meta:
-        model = PlaneModel
-        interfaces = (Node,)
+from models import (Element as ElementModel, Plane as PlaneModel, PlanePackage as PlanePackageModel)
 
 class ElementType(MongoengineObjectType):
     class Meta:
         model = ElementModel
         interfaces = (Node,)
 
+class PlaneType(MongoengineObjectType):
+    class Meta:
+        model = PlaneModel
+        interfaces = (Node,)
+
+class PlanePackageType(MongoengineObjectType):
+    class Meta:
+        model = PlanePackageModel
+        interfaces = (Node,)
 
 class Query(graphene.ObjectType):
-    plane = graphene.Field(PlaneType, name=graphene.String())
-    all_planes = graphene.List(PlaneType)
-    all_planes_2 = MongoengineConnectionField(PlaneType)
+    package = graphene.Field(PlanePackageType, name=graphene.String())
 
-    def resolve_all_planes(parent, info):
-        return PlaneModel.objects
+    def resolve_package(parent, info, name):
+        return PlanePackageModel.objects.filter(name=name).first()
 
-    def resolve_plane(parent, info, name):
-        return PlaneModel.objects.filter(name=name).first()
+    all_packages = graphene.List(PlanePackageType)
 
+    def resolve_all_packages(parent, info):
+        return PlanePackageModel.objects
 
 # Mutations
 @staticmethod
@@ -49,40 +52,20 @@ class PlaneInput(graphene.InputObjectType):
     elements = graphene.List(ElementInput)
     id = graphene.ID()
 
-class CreatePlane(graphene.Mutation):
-    plane = graphene.Field(PlaneType)
+class PlanePackageInput(graphene.InputObjectType):
+    name = graphene.String()
+    planes = graphene.List(PlaneInput)
+    topPlane= graphene.String()
+
+class CreatePlanePackage(graphene.Mutation):
+    planePackage = graphene.Field(PlanePackageType)
 
     class Arguments:
-        plane_data = PlaneInput(required = True)
+        planePackage_data = PlanePackageInput(required = True)
 
-    def mutate(self, info, plane_data=None):
-        elements = []
-        for element_data in plane_data.elements:
-            elements.append(ElementModel(
-                name = element_data.name,
-                description = element_data.description,
-                posX = element_data.posX,
-                posY = element_data.posY
-            ))
-        plane = PlaneModel(
-            name=plane_data.name,
-            height=plane_data.height,
-            width=plane_data.width,
-            elements=elements
-        )
-        plane.save()
-
-        return CreatePlane(plane=plane)
-
-class UpdatePlane(graphene.Mutation):
-    plane = graphene.Field(PlaneType)
-
-    class Arguments:
-        plane_data = PlaneInput(required = True)
-
-    def mutate(self, info, plane_data=None):
-        plane = PlaneModel.objects.get(name=plane_data.name)
-        if plane_data.elements:
+    def mutate(self, info, planePackage_data=None):
+        planes = []
+        for plane_data in planePackage_data.planes:
             elements = []
             for element_data in plane_data.elements:
                 elements.append(ElementModel(
@@ -91,18 +74,52 @@ class UpdatePlane(graphene.Mutation):
                     posX = element_data.posX,
                     posY = element_data.posY
                 ))
-            plane.elements = elements
-        if plane_data.name:
-            plane.name = plane_data.name
-        if plane_data.height:
-            plane.height = plane_data.height
-        if plane_data.width:
-            plane.width = plane_data.width
-        plane.save()
+            planes.append(PlaneModel(
+                name=plane_data.name,
+                height=plane_data.height,
+                width=plane_data.width,
+                elements=elements
+            ))
+        planePackage = PlanePackageModel(
+            name=planePackage_data.name,
+            topPlane=planePackage_data.topPlane,
+            planes=planes
+        )
+        planePackage.save()
 
-        return UpdatePlane(plane=plane)
+        return CreatePlanePackage(planePackage=planePackage)
 
-class DeletePlane(graphene.Mutation):
+class UpdatePlanePackage(graphene.Mutation):
+    planePackage = graphene.Field(PlanePackageType)
+
+    class Arguments:
+        planePackage_data = PlanePackageInput(required = True)
+
+    def mutate(self, info, planePackage_data=None):
+        planePackage = PlanePackageModel.objects.get(name=planePackage_data.name)
+        planes = []
+        for plane_data in planePackage_data.planes:
+            elements = []
+            for element_data in plane_data.elements:
+                elements.append(ElementModel(
+                    name = element_data.name,
+                    description = element_data.description,
+                    posX = element_data.posX,
+                    posY = element_data.posY
+                ))
+            planes.append(PlaneModel(
+                name=plane_data.name,
+                height=plane_data.height,
+                width=plane_data.width,
+                elements=elements
+            ))
+        planePackage.planes = planes
+        planePackage.topPlane = planePackage_data.topPlane
+        planePackage.save()
+
+        return UpdatePlanePackage(planePackage=planePackage)
+
+class DeletePlanePackage(graphene.Mutation):
     class Arguments:
         name = graphene.String(required = True)
 
@@ -110,16 +127,16 @@ class DeletePlane(graphene.Mutation):
 
     def mutate(self, info, name):
         try:
-            PlaneModel.objects.get(name=name).delete()
+            PlanePackageModel.objects.get(name=name).delete()
             success = True
         except DoesNotExist:
             success = False
 
-        return DeletePlane(success = success)
+        return DeletePlanePackage(success = success)
 
 class Mutations(graphene.ObjectType):
-    create_plane = CreatePlane.Field()
-    update_plane = UpdatePlane.Field()
-    delete_plane = DeletePlane.Field()
+    create_plane_package = CreatePlanePackage.Field()
+    update_plane_package = UpdatePlanePackage.Field()
+    delete_plane_package = DeletePlanePackage.Field()
 
-schema = graphene.Schema(query=Query, mutation=Mutations, types=[PlaneType])
+schema = graphene.Schema(query=Query, mutation=Mutations, types=[PlanePackageType])

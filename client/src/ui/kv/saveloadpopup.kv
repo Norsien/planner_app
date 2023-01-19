@@ -30,17 +30,16 @@
                 on_press: root.dismiss()
 
 <SaveLoadPopup>:
-    planeList: planeList.__self__
+    packageList: packageList.__self__
     nameField: nameField.__self__
 
     size_hint: (None, None)
     size: (175, 400)
     auto_dismiss: False
-    title: self.actionTypeString
 
     server_option: "server default"
     local_option: "local default"
-    submit_option: "NOT"
+    submit_option: "Unknown submit"
     BoxLayout:
         orientation: "horizontal"
         BoxLayout:
@@ -58,7 +57,7 @@
                 text: root.local_option
                 size_hint: (None, None)
                 size: (150, 35)
-                on_press: print("not implemented")
+                on_press: root.show_not_implemented_message()
             Widget:
                 size_hint: (None, 1)
                 width: 150
@@ -83,7 +82,7 @@
             ScrollView:
                 BoxLayout:
                     orientation: "vertical"
-                    id: planeList
+                    id: packageList
                     spacing: 2
                     padding: [0, 2, 0, 0]
                     size_hint_y: None
@@ -110,15 +109,18 @@
                     size: (90, 30) if root.is_wide else (0, 0)
                     opacity: 1 if root.is_wide else 0
                     on_press: root.handle_submit()
-<SavePlanePopup>:
+
+<SavePlanePackagePopup>:
     server_option: "On the server"
     local_option: "On this machine..."
     submit_option: "SAVE"
+    title: "Save as..."
 
-<LoadPlanePopup>:
+<LoadPlanePackagePopup>:
     server_option: "From server"
     local_option: "From this machine..."
     submit_option: "LOAD"
+    title: "Load from..."
 
 <ListItem>:
     size_hint: (1, None)
@@ -129,13 +131,12 @@
         text: "01.01.2022"
         color: .3, .3, .3
         size_hint: (.75, .5)
-        # pos_hint: {"x": 0, "y": .3}
         pos: (0, 16)
         text_size: self.size
         valign: "middle"
         padding_x: 5
     Label:
-        text: root.planeName
+        text: root.itemName
         size_hint: (.75, .5)
         text_size: self.size
         valign: "middle"
@@ -151,16 +152,16 @@
             button_color: .25, .25, .25, 1
             default_color: .25, .25, .25, 1
             highlight_color: .5, .5, .5, 1
-            on_press: root.delete_plane()
+            on_press: root.delete_package()
             
 <DeleteConfirmationPopup>:
     size_hint: (None, None)
     size: (350, 140)
-    title: "Delete plane"
+    title: "Delete package"
     BoxLayout:
         orientation: "vertical"
         Label:
-            text: "Do you want to delete '{}' plane?".format(root.planeName)
+            text: "Do you want to delete '{}' package?".format(root.itemName)
             text_size: self.size
             valign: "middle"
             padding_x: 5
@@ -170,7 +171,7 @@
                 PopupButton:
                     text: "Yes"
                     button_color: .45, .15, .15, 1
-                    default_color: .1, .1, .1, 1
+                    default_color: .45, .15, .15, 1
                     highlight_color: .6, .2, .2, 1
                     on_press: root.confirm_delete()
                     size_hint: (.9, 1)
@@ -184,12 +185,12 @@
 <OverwriteConfirmationPopup>:
     size_hint: (None, None)
     size: (450, 140)
-    title: "Overwrite plane"
+    title: "Overwrite package"
     auto_dismiss: False
     BoxLayout:
         orientation: "vertical"
         Label:
-            text: "Do you want to overwrite '{}' save?".format(root.planeName)
+            text: "Do you want to overwrite '{}' save?".format(root.itemName)
             text_size: self.size
             valign: "middle"
             padding_x: 5
@@ -206,37 +207,6 @@
                     text: "No"
                     on_press: root.dismiss()
                     size_hint: (.9, 1)
-
-<ErrorPopup>:
-    size_hint: (None, None)
-    size: (280, 200)
-    title: "Information"
-    BoxLayout:
-        orientation: "vertical"
-        Label:
-            text: root.message
-            text_size: self.size
-            valign: "middle"
-            padding_x: 5
-        WidgetBox:
-            size_hint: (1, .35)
-            PopupButton:
-                size_hint: (.5, 1)
-                text: "Ok"
-                on_press: root.dismiss()
-
-<PopupButton>:
-    background_color: 1, 1, 1, 0
-    color: 1, 1, 1, 1
-    button_color: .45, .45, .45, 1
-    default_color: .45, .45, .45, 1
-    highlight_color: .6, .6, .6, 1
-    canvas.before:
-        Color:
-            rgba: self.button_color
-        Rectangle:
-            size: self.size
-            pos: self.pos
 
 
 
